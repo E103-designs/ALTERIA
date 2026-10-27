@@ -1,0 +1,5 @@
+{
+  "private": true,
+  "description": "Optional compiled AVR simulation dependency, not an Arduino library",
+  "dependencies": { "avr8js": "0.21.1" }
+}
