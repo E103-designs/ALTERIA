@@ -38,7 +38,7 @@ Use `cpu=atmega328old` for a Nano that requires the old bootloader. Check USB/ex
 | P1 / P2 / P3 | A0 / A1 / A6 |
 | CV IN / MANUAL / I/O analog | A2 / A3 / A5 |
 
-The output analog stage is inverting: increasing DAC code lowers jack voltage. Route physical voltages through calibration-aware conversion. D3/D5 are LEDs, not legacy PWM DAC mirrors. I/O is not a third analog DAC. Schematics, exact board conditioning and safe jack input limits still require the corrected hardware release.
+The output analog stage is inverting: increasing DAC code lowers jack voltage. Route physical voltages through calibration-aware conversion. D3/D5 are LEDs, not legacy PWM DAC mirrors. I/O is not a third analog DAC. The [updated schematic PDF](../hardware/schematics/README.md) supplied on 28 October 2026 is available. Check exact board conditioning and safe jack input limits against the drawing and the assembled board; the PDF upload adds no new bench measurements.
 
 ## Where to change behavior
 
