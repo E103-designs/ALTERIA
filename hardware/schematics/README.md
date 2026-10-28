@@ -1,21 +1,25 @@
-# ALTERIA — current schematics / schematic aggiornati
+# ALTERIA - schematics / schematici
 
-**Status: awaiting the maintainer's corrected files. No current schematic release is provided in this folder yet.**
+**Updated schematic PDF supplied by the maintainer and published on 28 October 2026.**
 
-This is the reserved location for the latest manually checked schematic. Do not treat old drawings, photos or firmware pin names as a verified construction package.
+[Open or download the schematic PDF](Schematic_ALTERIA-REV5-2026-10-28.pdf)
 
-## Maintainer upload checklist
-
-1. Add a readable PDF named `ALTERIA_SCHEMATIC_REV-x.y_YYYY-MM-DD.pdf`.
-2. Add the **editable native CAD project** and any custom symbols/footprints in `source/`, or link a public versioned source. A PDF/Gerber alone is not the preferred form for modifying the design.
-3. Record PCB revision, date, tool/version, matching BOM and Gerbers, MCU (where present), and known errata below.
-4. Check connector numbering, orientation, signal conditioning and supply polarity against the actual board. Commit and tag the matching revision together.
-5. Update the root README and the table below only when those files are present and reviewed.
-
-| Revision | PDF | Editable CAD | Matching PCB/BOM | Verification |
+| File baseline | Pages | Export/publication date | Editable CAD | Matching PCB/BOM/Gerbers |
 | --- | --- | --- | --- | --- |
-| Pending | Not uploaded | Not uploaded | To be linked | Awaiting maintainer |
+| REV5 (filename) | 2 | 2026-10-28 | Awaiting source files | Not included in this upload |
+
+## Revision identification
+
+The original filename and PDF bytes are preserved. The date in the filename is the export/publication date; it does not replace a design revision or the dates printed inside the drawing.
+
+Original title block(s): Page 1: ALTERIA REV5 FRONT, REV 0.1, date 2024-10-19. Page 2: ALTERIA REV5 BACK, REV 1.0, date 2026-08-24.
+
+Integrity: [SHA-256 checksums](SHA256SUMS.txt). The PDF was opened, its 2 page(s) rendered and the uploaded bytes checked against the supplied file. Publication does not add a new electrical review, firmware compatibility test or bench validation.
+
+## Editable hardware sources
+
+Add the native CAD project and its custom symbols/footprints under `source/` when available, with the PCB revision, matching BOM/Gerbers and known errata. The PDF supports reading the circuit; native CAD is still needed to modify the original design directly.
 
 ## Italiano
 
-Carica qui manualmente gli schematici corretti piu recenti, insieme ai sorgenti CAD modificabili. Aggiorna la tabella con la revisione reale: nessun vecchio PDF e stato promosso automaticamente a schema definitivo.
+Lo schematico aggiornato fornito dal maintainer e disponibile nel PDF qui sopra. Nome e contenuto originali sono conservati. I cartigli mantengono le proprie date e revisioni; il 28 ottobre 2026 identifica questa esportazione/pubblicazione. Sorgenti CAD modificabili e pacchetto di produzione della stessa revisione restano da aggiungere.
