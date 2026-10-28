@@ -6,10 +6,10 @@
     "CONTRIBUTING.md": "b4eb92d9a25d2b08a52fd0d8f165ed8f9475722fcc6a42a938d20a0df6228ea9",
     "LICENSE": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
     "NOTICE.md": "7f18d1ffbb28a1ec7150fb937c6651594c53ee576a0662894656910ac5ba6a7d",
-    "README.md": "8ad5026d1ce1b2b10b393e566d5a023d840c36200d98fcac1fefa01f628d3596",
+    "README.md": "b9d17e3d4790edf49d2f75be509c20dd545a3b9ba5d6ebcccb57830fce80e0b1",
     "docs/CALIBRATION.md": "17cf2d558242288be5057a3541c47e6fa86b13d0e3ea6c9f79e34602d2f4e061",
-    "docs/DEVELOPMENT.md": "441a110363420fd4875850a8dd521a3a8bb1ba6e2ab9a8ce725d9177809df67b",
-    "docs/PUBLICATION_CHECKS.md": "6f0f94f4516cfc8b551625ea6945932b32d2acca4745317ec80fefeb1987da22",
+    "docs/DEVELOPMENT.md": "4e7c349d8a4ae55edd65bf373d7e9a088c586500e9ade77dbd91f448bd40fb0a",
+    "docs/PUBLICATION_CHECKS.md": "cc8b08d5cd8cc7aaebbd34698074f4033a2346319e9014f6bee794d3b829e4f5",
     "firmware/ALTERIA_ALLROUNDER/ALTERIA_ALLROUNDER.ino": "6243c5deb29e7082eb011cea992f7d42888b365861dce2ebfaccb5a795f985e9",
     "firmware/ALTERIA_ALLROUNDER/ATTRIBUTION.md": "c9826c2c3e0b9a265178872d507f0b822152c5fe34ca822f397e426d0006998a",
     "firmware/ALTERIA_ALLROUNDER/GUIDA_CALIBRAZIONE.md": "f532f573960cfd9cb3269327b4eb83fd5cf91ba91b62ec727027758b22ae50d2",
@@ -41,14 +41,17 @@
     "firmware/ALTERIA_DRUM_LAB/tests/stubs/avr/eeprom.h": "cea7c5ec58ecb686eb5c248699f0dc30528cb366edfbd8aacd74c97c3596a508",
     "firmware/ALTERIA_DRUM_LAB/tests/stubs/avr/pgmspace.h": "620a0d339241473dbe56447664635e4e854b4bfa94c55a18c3edf9b2266521f7",
     "firmware/ALTERIA_DRUM_LAB/tests/stubs/util/atomic.h": "30390a360415056c988a9f2648fa1c5ca5f33543c9a7c6b893ae326c31b24c03",
-    "hardware/schematics/README.md": "cef897c2b393b4fac059805031bc1eb913927a7a414737010db0af3c1924393b",
+    "hardware/schematics/README.md": "7d8270cb6e35f716c2d10a86d94038291e420f0a5180646e6f98b596187b4c73",
     "tools/test_host.sh": "525ea2270539cd2a9f7113884f74cf280b7e460b06d9de4d4f42873dd3a1e1b7",
     "PHOTO_EDIT_NOTES.md": "e3644597f673308bf18e370387091580df92c06dcd6c2e0f9a14eae8d6b69c7a",
     "images/ALTERIA_angled-right_IMG_3254_clean.png": "a8b8c4db5c517ee59da16277e44ac1159bb8fc37f44bef40d45b17ebb174f14a",
     "images/ALTERIA_angled-left_IMG_3253_clean.png": "2a3942c3477771afb461dedf04e78d039fb8fd61292be435e812621310240f47",
     "images/ALTERIA_front_IMG_3251_clean.png": "7f15c09e8823b4ab8262c895ec11b43f065a878076f7e6f089d9829131aa24d9",
     "images/ALTERIA_side-right_IMG_3252_clean.png": "315cac18b48539934402f081a13def497a145b5b33681b2a48df09adfd991fba",
-    "images/ALTERIA_side-left_IMG_3250_clean.png": "208721c700ae5c6955ed4c0dde997129adc937afc5447fc27a69957152367ccb"
+    "images/ALTERIA_side-left_IMG_3250_clean.png": "208721c700ae5c6955ed4c0dde997129adc937afc5447fc27a69957152367ccb",
+    "hardware/schematics/Schematic_ALTERIA-REV5-2026-10-28.pdf": "36cdec97f5a56374f944a3286568b82da21a62c2b436339a744a071a5997486f",
+    "hardware/schematics/SHA256SUMS.txt": "d90e3ece401d2771a6353cdab368b1b8c39a96d07e3411f707f06bbbead5bceb"
   },
-  "photo_update_date": "2026-10-28"
+  "photo_update_date": "2026-10-28",
+  "schematic_update_date": "2026-10-28"
 }

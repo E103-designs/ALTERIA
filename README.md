@@ -80,7 +80,7 @@ Audio runs at **6.4 kHz** with deliberate lo-fi character. There is no internal 
 
 ## Open-source status and verification
 
-Complete editable firmware and software tests are included. Corrected schematics and native CAD are **pending manual upload** in [hardware/schematics](hardware/schematics/README.md); this is not yet a complete hardware manufacturing release.
+Complete editable firmware and software tests are included. The **updated two-page schematic PDF supplied on 28 October 2026** is available in [hardware/schematics](hardware/schematics/README.md). Native CAD and a matching manufacturing package remain to be added.
 
 Allrounder 2.0.2: recorded AVR build **29,448 / 30,720 bytes flash**, **1,094 / 2,048 bytes static SRAM**. DRUM LAB 1.0.0: **18,458 bytes flash**, **966 bytes static SRAM**. Stack and runtime headroom need separate consideration. Existing [Allrounder](firmware/ALTERIA_ALLROUNDER/TEST_REPORT.md) and [DRUM LAB](firmware/ALTERIA_DRUM_LAB/TEST_REPORT.md) reports distinguish host/AVR simulation from measurements on the real board. The prior Allrounder 2.0.1 audio path has a positive user report; the 2.0.2 timbre update and DRUM LAB still need listening and bench verification.
 
