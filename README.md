@@ -4,7 +4,13 @@
 
 **Open-source firmware for a compact Eurorack function generator, rhythm utility and lo-fi percussion instrument.** Three knobs, two buttons and two calibrated DAC outputs — with a separate **DRUM LAB** firmware when you want to focus on percussion.
 
-<p align="center"><img src="images/front.jpg" height="520" alt="ALTERIA actual product front panel"> <img src="images/detail.jpg" height="520" alt="ALTERIA assembled hardware"></p>
+<p align="center"><img src="images/ALTERIA_front_IMG_3251_clean.png" height="500" alt="ALTERIA — front, retouched product photograph"> <img src="images/ALTERIA_angled-left_IMG_3253_clean.png" height="500" alt="ALTERIA — angled-left, retouched product photograph"></p>
+
+<details><summary>More product views</summary>
+<p align="center"><img src="images/ALTERIA_side-left_IMG_3250_clean.png" height="360" alt="ALTERIA — side-left, retouched product photograph"> <img src="images/ALTERIA_side-right_IMG_3252_clean.png" height="360" alt="ALTERIA — side-right, retouched product photograph"> <img src="images/ALTERIA_angled-right_IMG_3254_clean.png" height="360" alt="ALTERIA — angled-right, retouched product photograph"></p>
+</details>
+
+<sub>Product photographs retouched with AI for background and lighting. [Photo notes](PHOTO_EDIT_NOTES.md).</sub>
 
 [Allrounder manual](firmware/ALTERIA_ALLROUNDER/README.md) · [Calibration](docs/CALIBRATION.md) · [DRUM LAB](firmware/ALTERIA_DRUM_LAB/README.md) · [Build and modify](docs/DEVELOPMENT.md) · [Schematics](hardware/schematics/README.md)
 
