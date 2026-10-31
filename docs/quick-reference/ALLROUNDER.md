@@ -1,7 +1,10 @@
-# ALLROUNDER 2.0.2 - Quick Reference
+# ALLROUNDER 2.0.2 / 2.1.0 - Quick Reference
 
-**Questa guida corrisponde al firmware 2.0.2 pubblicato: modo 10 = Mutant Drums,
-non Acid Voice della variante 2.1.0.** Un solo modo alla volta.
+**Due versioni separate: 2.0.2 con Mutant Drums, 2.1.0 con Acid Voice.**
+La **2.1.0 e NON TESTATA SU HARDWARE / UNTESTED ON HARDWARE**; ha superato solo
+build/test software. Modi 1..9 e 11..16 uguali. La tabella sotto usa il modo 10
+della 2.0.2; il nuovo modo 10 della 2.1.0 e descritto nella sezione dedicata.
+Un solo modo alla volta.
 MODE breve al rilascio avanza 1..16. LED in ordine **1,2,3,4**, pesi 1,2,4,8;
 `1` acceso. Nel modo 16 mostrano il preset, non il numero del modo.
 
@@ -47,10 +50,33 @@ MODE breve al rilascio avanza 1..16. LED in ordine **1,2,3,4**, pesi 1,2,4,8;
 | 15 | Clock: avanza uno step | Avanza uno step | Gate | Gate accentato | Trigger accento |
 | 16 | Prossimo preset, solo play | Prossimo preset | CV A salvata | CV B salvata | Gate salvato |
 
+## Modo 10 nella 2.1.0: Acid Voice - NON TESTATO SU HARDWARE
+
+LED superiori sempre **0101**. Sostituisce solo il modo 10 Drums; non e una
+replica TB-303. Non confondere Acid Voice 10 con il sequencer CV Acid 6.
+
+| Controllo | Funzione nella 2.1.0 |
+| --- | --- |
+| POT1 | Decay volume e apertura filtro |
+| POT2 | Risonanza |
+| POT3 | Env Mod sul filtro, cutoff di base circa 110 Hz |
+| CV IN | **Pitch continuo nominale 1 V/oct**, non trigger |
+| I/O | **Ingresso gate/trigger nota** |
+| MANUAL | Alterna saw/square; **non suona una nota** |
+| OUT1 | **Audio mono circa +/-2.5 V** |
+| OUT2 | **Inviluppo positivo 0..+5 V**, non audio snare |
+
+Il gate avvia il decay; tenerlo alto non sostiene/ripete. Cutoff aperto dall'AD
+fino a circa 1.5 kHz. LED CV IN spento = saw, acceso = square; LED I/O segue
+il gate. Selezionare 10 prima di collegare I/O e scollegarlo prima di uscire o
+riavviare. Per ascoltare servono pitch e gate esterni: modo 6 non gira insieme
+al 10. ACAL corregge uscite DAC, non tracking dell'ingresso pitch.
+
 ## Da ricordare
 
 - OUT1/OUT2: modi 1..9 e 11..15 **0..+5 V**; modo 10 audio circa **+/-2.5 V**;
   modo 16 CV **-5..+5 V**. I/O e digitale, non un terzo DAC analogico.
+  Eccezione **2.1.0 modo 10: OUT2 e 0..+5 V AD**, non audio bipolare.
 - **I/O ingresso solo nei modi 3 e 10 e in taratura**. Scollegare la sorgente
   esterna prima di lasciare 3/10 o riavviare: gli altri modi lo pilotano in uscita.
 - Clock 9: rapporti /8, /6, /4, /3, /2, x1, x2, x3, x4, x6, x8. Parte a
@@ -66,5 +92,6 @@ MODE breve al rilascio avanza 1..16. LED in ordine **1,2,3,4**, pesi 1,2,4,8;
   MANUAL per avanzare; LED4 lampeggiante: MANUAL 1 s salva. MODE 1.2 s annulla.
 
 Nuovo timbro 2.0.2 non dichiarato collaudato sul modulo da questa guida.
-[Manuale completo](../../firmware/ALTERIA_ALLROUNDER/README.md) ·
+[Manuale 2.0.2](../../firmware/ALTERIA_ALLROUNDER/README.md) ·
+[Manuale 2.1.0 NON TESTATO](../../firmware/ALTERIA_ALLROUNDER_2_1_0/README.md) ·
 [Indice quick reference](README.md).
