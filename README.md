@@ -21,6 +21,7 @@
 | Firmware | Version | Purpose | Hardware |
 | --- | --- | --- | --- |
 | **ALLROUNDER** | **2.0.2**, 27 October 2026 | Sixteen modes covering envelopes, rhythm, modulation, pitch CV and two drum voices | REV5-2, Nano ATmega328P, 16 MHz |
+| **ALLROUNDER - experimental variant** | **2.1.0**, 31 October 2026, **UNTESTED ON HARDWARE** | Same 16-mode layout; mode 10 Acid Voice replaces Mutant Drums | Same hardware |
 | **DRUM LAB** | **1.0.0**, 27 October 2026 | Two independent percussion voices, each with eight selectable engines and three effects | Same hardware |
 | **FULL VOICE** | **1.0.0**, 31 October 2026, **UNTESTED ON HARDWARE** | Mono oscillator/filter/VCA voice, four editing pages, AD envelope, nominal V/oct + trigger input | Same hardware |
 
@@ -68,6 +69,22 @@ One mode runs at a time. Short MODE presses advance 1–16. LEDs 1–4 have bina
 Calibration is manual, with a multimeter at the output jacks. Hold **MODE + MANUAL at power-on/reset**, release at LED1, then adjust both outputs at **0 V, +5 V and −5 V** using P1/P2. Center both knobs before each MANUAL confirmation. At blinking LED4, hold MANUAL **1 second** to save. MODE held **1.2 seconds** cancels. Read the [complete calibration guide](docs/CALIBRATION.md) before starting.
 
 The six points are stored per board in two CRC-protected EEPROM records. This adjusts output offset and positive/negative scale; it does not calibrate inputs or guarantee perfect 1 V/oct tracking.
+
+## ALLROUNDER 2.1.0 - UNTESTED ON HARDWARE
+
+**NON TESTATO SU HARDWARE / UNTESTED ON HARDWARE.** Published alongside 2.0.2,
+not over it. Only mode 10 changes to **Acid Voice**: P1 decay, P2 resonance,
+P3 Env Mod; CV IN pitch, I/O note trigger, MANUAL saw/square. **OUT1 audio;
+OUT2 positive envelope, not snare audio.** The other 15 modes, calibration and
+preset layouts are unchanged. Mode 6 remains an independent CV sequencer,
+not an internal sequencer for the new voice.
+
+[Sketch and manual](firmware/ALTERIA_ALLROUNDER_2_1_0) ·
+[Version comparison / quick reference](docs/quick-reference/ALLROUNDER.md) ·
+[Untested status](firmware/ALTERIA_ALLROUNDER_2_1_0/STATUS.md).
+Software-tested, not physically validated. Recorded build: **30012 bytes flash,
+1081 bytes static SRAM**. I/O still changes direction outside modes 3/10:
+disconnect external drivers before exiting or restarting.
 
 ## DRUM LAB 1.0.0
 
