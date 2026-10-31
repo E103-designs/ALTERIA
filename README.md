@@ -2,7 +2,7 @@
 
 ### One module. Sixteen ways to move a patch.
 
-**Open-source firmware for a compact Eurorack function generator, rhythm utility and lo-fi percussion instrument.** Three knobs, two buttons and two calibrated DAC outputs — with a separate **DRUM LAB** firmware when you want to focus on percussion.
+**Open-source firmware for a compact Eurorack function generator, rhythm utility and lo-fi percussion instrument.** Three knobs, two buttons and two calibrated DAC outputs, with separate **DRUM LAB** and experimental **FULL VOICE** firmware.
 
 <p align="center"><img src="images/ALTERIA_front_IMG_3251_clean.png" height="500" alt="ALTERIA — front, retouched product photograph"> <img src="images/ALTERIA_angled-left_IMG_3253_clean.png" height="500" alt="ALTERIA — angled-left, retouched product photograph"></p>
 
@@ -14,12 +14,15 @@
 
 [Allrounder manual](firmware/ALTERIA_ALLROUNDER/README.md) · [Calibration](docs/CALIBRATION.md) · [DRUM LAB](firmware/ALTERIA_DRUM_LAB/README.md) · [Build and modify](docs/DEVELOPMENT.md) · [Schematics](hardware/schematics/README.md)
 
+**Quick reference:** [ALLROUNDER](docs/quick-reference/ALLROUNDER.md) · [DRUMLAB](docs/quick-reference/DRUMLAB.md) · [FULLVOICE - UNTESTED](docs/quick-reference/FULLVOICE.md).
+
 ## Choose your firmware
 
 | Firmware | Version | Purpose | Hardware |
 | --- | --- | --- | --- |
 | **ALLROUNDER** | **2.0.2**, 27 October 2026 | Sixteen modes covering envelopes, rhythm, modulation, pitch CV and two drum voices | REV5-2, Nano ATmega328P, 16 MHz |
 | **DRUM LAB** | **1.0.0**, 27 October 2026 | Two independent percussion voices, each with eight selectable engines and three effects | Same hardware |
+| **FULL VOICE** | **1.0.0**, 31 October 2026, **UNTESTED ON HARDWARE** | Mono oscillator/filter/VCA voice, four editing pages, AD envelope, nominal V/oct + trigger input | Same hardware |
 
 These are separate sketches; upload one at a time. They do not require an external audio library. SPI and EEPROM come with the Arduino AVR core. **ATmega168P is not a supported replacement for these releases.**
 
@@ -77,6 +80,27 @@ Two independent audio outputs. Assign **Kick, Tom, Synth Perc, Snare, Clap, FM M
 - Knobs use pickup after recall. Eight engines are available to each voice, with **two voices sounding simultaneously**, not eight.
 
 Audio runs at **6.4 kHz** with deliberate lo-fi character. There is no internal sequencer: use external triggers or MANUAL. [Read the complete DRUM LAB manual](firmware/ALTERIA_DRUM_LAB/README.md), including EEPROM, LED meanings, calibration and [attribution](firmware/ALTERIA_DRUM_LAB/ATTRIBUTION.md).
+
+## FULL VOICE 1.0.0 - UNTESTED ON HARDWARE
+
+**NON TESTATO SU HARDWARE / UNTESTED ON HARDWARE.** This experimental sketch
+has passed compilation, host tests and AVR binary simulation, but has not been
+validated on a physical module. It is not a stable/hardware-approved release.
+
+CV IN is nominal 1 V/oct pitch; I/O stays an input for gate/trigger; OUT1 is
+filtered/VCA audio, OUT2 is a positive AD envelope. Four pages: OSC (waveform,
+PWM, fine tune), FILTER (cutoff, resonance, AD amount), VCA (level, AD amount,
+drive), ENV (**Attack, Decay, curve; no sustain/release**). MODE short goes
+forward, MANUAL short back; MANUAL held 500 ms auditions a note, MODE held
+1.2 seconds saves the patch. Knobs use pickup.
+
+[Quick reference](docs/quick-reference/FULLVOICE.md) ·
+[Complete manual and sketch](firmware/ALTERIA_FULL_VOICE) ·
+[Untested status](firmware/ALTERIA_FULL_VOICE/STATUS.md).
+Lo-fi 6.4 kHz, approximately +/-2.5 V audio and 0..+5 V envelope targets.
+Physical levels, sound and V/oct tracking still require bench tests; output
+ACAL does not calibrate the pitch ADC. Recorded build: **14536 bytes flash,
+513 bytes static SRAM**. Allrounder and DRUM LAB sources remain unchanged.
 
 ## Open-source status and verification
 
