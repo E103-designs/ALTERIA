@@ -36,3 +36,13 @@ firmware families. ALLROUNDER 2.0.2 and DRUM LAB 1.0.0 sketch hashes are unchang
 ALLROUNDER 2.0.2 (mode 10 Mutant Drums), DRUM LAB 1.0.0 and experimental FULL VOICE
 1.0.0. They include pots, LEDs, buttons, CV IN, I/O direction and outputs.
 They do not add new hardware specifications or replace bench validation.
+
+### Additional ALLROUNDER 2.1.0 publication
+
+On the maintainer's explicit follow-up, also added **ALLROUNDER 2.1.0 -
+UNTESTED ON HARDWARE** in its own directory, preserving 2.0.2 unchanged.
+SHA-256 `8ddf107946f6a1cc4ac3afaeb559f6f514e96a6905538352006b93c4884da9f2`;
+recorded AVR build 30012 bytes flash / 1081 bytes static SRAM. Its four host
+suites were re-run with the other seven: **all eleven PASS** under ASan/UBSan.
+No new physical validation is claimed. The ALLROUNDER quick reference now
+documents both versions and the incompatible mode 10 routing/controls explicitly.

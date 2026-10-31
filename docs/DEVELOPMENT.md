@@ -4,8 +4,9 @@
 
 - `firmware/ALTERIA_ALLROUNDER/ALTERIA_ALLROUNDER.ino`: complete **2.0.2** baseline, recovered byte-for-byte from the versioned distribution ZIP. SHA-256: `6243c5deb29e7082eb011cea992f7d42888b365861dce2ebfaccb5a795f985e9`.
 - `firmware/ALTERIA_DRUM_LAB/ALTERIA_DRUM_LAB.ino`: **1.0.0**, SHA-256 `fd3f506c6b6d2cbcda7af0ccba06d537417051523a8e54d3c3fb6dfeeb932826`.
+- `firmware/ALTERIA_ALLROUNDER_2_1_0/ALTERIA_ALLROUNDER_2_1_0.ino`: **2.1.0, UNTESTED ON HARDWARE**, SHA-256 `8ddf107946f6a1cc4ac3afaeb559f6f514e96a6905538352006b93c4884da9f2`. Separate experimental variant; 2.0.2 is preserved.
 - `firmware/ALTERIA_FULL_VOICE/ALTERIA_FULL_VOICE.ino`: **1.0.0, UNTESTED ON HARDWARE**, SHA-256 `248a7a62e211e88f59981d5b991aafaff8f4942266af6ba4845ab83b3c8bfc63`. Compiled/software-tested, not physically validated. See its `STATUS.md`.
-- Each firmware has its own manual, attribution, test report, host stubs and optional AVR simulator. Keep the three sketches in separate directories. [Quick references](quick-reference/README.md) identify exact versions.
+- Each firmware has its own manual, attribution, test report, host stubs and optional AVR simulator. Keep all four sketches (three families) in separate directories. [Quick references](quick-reference/README.md) identify exact versions.
 
 The local loose Allrounder file found during publication was only a tail fragment. It was not published or used as a baseline; the complete archive matches the pre-existing build report hash. The original local files were left untouched.
 
@@ -21,6 +22,7 @@ arduino-cli core install arduino:avr@1.8.6
 arduino-cli compile --warnings all --fqbn arduino:avr:nano:cpu=atmega328 --build-path /tmp/alteria-allrounder-build firmware/ALTERIA_ALLROUNDER
 arduino-cli compile --warnings all --fqbn arduino:avr:nano:cpu=atmega328 --build-path /tmp/alteria-drum-lab-build firmware/ALTERIA_DRUM_LAB
 arduino-cli compile --warnings all --fqbn arduino:avr:nano:cpu=atmega328 --build-path /tmp/alteria-full-voice-build firmware/ALTERIA_FULL_VOICE
+arduino-cli compile --warnings all --fqbn arduino:avr:nano:cpu=atmega328 --build-path /tmp/alteria-allrounder-210-build firmware/ALTERIA_ALLROUNDER_2_1_0
 arduino-cli board list
 # Replace PORT with the serial port reported above; choose one sketch:
 arduino-cli upload --port PORT --fqbn arduino:avr:nano:cpu=atmega328 firmware/ALTERIA_ALLROUNDER
@@ -58,7 +60,8 @@ Use rollover-safe unsigned time differences, non-blocking services, bounded arit
 
 ## Tests
 
-From repository root, `sh tools/test_host.sh` runs all seven host suites.
+From repository root, `sh tools/test_host.sh` runs all eleven host suites.
+ALLROUNDER 2.1.0 adds four suites, including `tests/acid_voice_test.cpp`.
 FULL VOICE adds `tests/full_voice_test.cpp` and `tests/calibration_test.cpp`;
 its AVR harness also accepts `--cal` after the build directory. These tests do
 not change its **UNTESTED ON HARDWARE** status. See its `TEST_REPORT.md`.
