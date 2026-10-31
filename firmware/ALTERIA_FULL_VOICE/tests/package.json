@@ -1,0 +1,5 @@
+{
+  "private": true,
+  "description": "Optional AVR binary simulator, never required by the Arduino sketch",
+  "devDependencies": { "avr8js": "0.21.1" }
+}
