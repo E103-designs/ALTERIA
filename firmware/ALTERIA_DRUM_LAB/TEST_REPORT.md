@@ -1,6 +1,6 @@
 # ALTERIA DRUM LAB 1.0.0 - verifica software
 
-2026-10-27. Nano ATmega328P 16 MHz / REV5-2. Variante sperimentale completa, da ascoltare e misurare sul modulo. Nessun upload o collaudo fisico effettuato dall'assistente.
+2026-10-27. Nano ATmega328P 16 MHz / REV5-2. Variante sperimentale completa, da ascoltare e misurare sul modulo. Nessun upload o collaudo fisico effettuato .
 
 ## Build AVR
 
