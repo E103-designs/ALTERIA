@@ -1,6 +1,6 @@
 # ALTERIA_ALLROUNDER 2.0.2 - report software
 
-2026-10-27. Nano ATmega328P, 16 MHz, PCB REV5-2. Sorgenti precedenti mantenuti separati. Versione 2.0.1 confermata funzionante dall'utente e archiviata prima della revisione timbrica.
+2026-10-27. Nano ATmega328P, 16 MHz, PCB REV5-2. La versione 2.0.2 aggiorna il motore timbrico mantenendo il percorso DAC della 2.0.1.
 
 ## Build finale
 
@@ -29,7 +29,7 @@ Non effettuati upload, ascolto sul modulo o misure elettriche . Prima della patc
 
 ## Diagnostica AVR aggiunta nella 2.0.1
 
-Storico: l'utente riferiva nessun suono/uscite piatte all'oscilloscopio, anche con MANUAL, mentre i LED ingresso rispondevano, MODE cambiava e le altre modalita funzionavano su ATmega328P. Ora conferma suono funzionante con la 2.0.1. Causa fisica originale **non riprodotta o identificata**. Anche il binario 2.0.0 emulato produceva campioni SPI corretti; non dichiarare quindi dimostrato un guasto del timer o un impulso LDAC insufficiente sul PCB.
+La simulazione del binario 2.0.0 produce campioni SPI; questo risultato non individua eventuali problemi del timer, di LDAC o della catena analogica sul circuito fisico. La diagnostica va accompagnata da misure sul PCB.
 
 Revisione 2.0.1: SPI.transfer/digitalWrite come nel percorso CV, LDAC LOW esteso ad almeno 1 us piu overhead GPIO, sample rate 6.4 kHz per margine CPU, contatori diagnostici seriali attivi solo in modo 10. La 2.0.2 conserva questo driver senza modifiche e cambia soltanto la sintesi Drums; EEPROM e altri modi restano invariati.
 
