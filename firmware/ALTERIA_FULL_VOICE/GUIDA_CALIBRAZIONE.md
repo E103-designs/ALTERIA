@@ -70,4 +70,4 @@ Dopo il salvataggio riavviare ed entrare di nuovo nella taratura per verificare
 Controllare separatamente offset, scala, rumore e deriva. Per il pitch misurare
 la tensione CV applicata contro l'ADC e configurare i due endpoint del sorgente;
 ACAL non li modifica. Nessuna promessa di intonazione perfetta o misura fisica
-eseguita dall'assistente. Report software: [TEST_REPORT.md](TEST_REPORT.md).
+eseguita . Report software: [TEST_REPORT.md](TEST_REPORT.md).

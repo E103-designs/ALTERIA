@@ -1,7 +1,7 @@
 # ALTERIA FULL VOICE 1.0.0 - test software
 
 2026-10-31. Target ATmega328P 16 MHz / Nano / REV5-2.
-Nessun upload, ascolto o misura del PCB eseguito dall'assistente.
+Nessun upload, ascolto o misura del PCB eseguito .
 
 ## Identita e build
 
