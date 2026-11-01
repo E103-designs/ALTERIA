@@ -6,7 +6,7 @@
 
 Aprire `ALTERIA_ALLROUNDER.ino` con Arduino IDE, scheda Arduino Nano, processore ATmega328P (Old Bootloader soltanto se necessario al caricamento). Solo SPI/EEPROM del core AVR; nessuna libreria audio esterna. Usare il file completo o importare lo ZIP, non soltanto un'anteprima parziale.
 
-Taratura ACAL EEPROM 256..301 e preset 128..189 mantengono formato e posizioni della variante CAL: i valori gia salvati vengono riutilizzati. Nessuna scrittura o cancellazione automatica dei valori validi al boot. Non e stato eseguito upload sul modulo dall'assistente.
+Taratura ACAL EEPROM 256..301 e preset 128..189 mantengono formato e posizioni della variante CAL: i valori gia salvati vengono riutilizzati. Nessuna scrittura o cancellazione automatica dei valori validi al boot. Il collaudo di questa versione sul modulo fisico resta da completare.
 
 ## Navigazione e tensioni
 
@@ -98,15 +98,9 @@ Motore Timer1 a **6.4 kHz**, sine table 8 bit su DAC 12 bit: carattere lo-fi del
 
 P1 aggiunge ritardi casuali positivi al canale A, fino al 25% del periodo stimato; non puo anticipare un evento gia ricevuto. P2 introduce swing sui colpi alterni di B, fino al 33%, con un piccolo contributo correlato. P3 varia la lunghezza del gate I/O; OUT1/OUT2 restano trigger. CV e MANUAL alimentano lo stesso flusso di eventi. Per stimare il periodo servono due eventi, prima si usa un fallback. Non continua da solo dopo lo stop del clock.
 
-## Diagnostica silenzio Drums - revisione 2.0.1
+## Diagnostica Drums
 
-L'utente ha riferito trigger e LED funzionanti, MODE ancora utilizzabile, ma OUT1/OUT2 piatti all'oscilloscopio. Questo **non identifica ancora la causa fisica**. Il firmware 2.0.0 compilato, eseguito con periferiche ATmega328P simulate, produce correttamente campioni SPI; quindi non si dichiara un guasto Timer/SPI riprodotto sulla scheda reale.
-
-La 2.0.1 sostituisce le scritture dirette ai registri GPIO/SPI con lo stesso percorso digitalWrite/SPI.transfer del driver CV funzionante, amplia il LOW di LDAC ad almeno 1 us piu overhead GPIO e riduce il sample rate a 6.4 kHz per lasciare margine CPU al percorso conservativo. Il timbro rimane lo-fi; i periodi d'inviluppo si allungano leggermente rispetto a 8 kHz. Taratura, preset e trigger non cambiano.
-
-**Aggiornamento 2026-10-27:** l'utente conferma che la 2.0.1 ora produce suono sul modulo, con kick soddisfacente. Non e stata isolata retroattivamente la causa del precedente silenzio. La 2.0.2 conserva esattamente driver DAC, sample rate, trigger e diagnostica di quella versione; interviene solo sulla sintesi Drums. L'ascolto del nuovo snare resta da confermare sul modulo. Copia della versione funzionante: `output/firmware/ALTERIA_ALLROUNDER_2.0.1.zip` nella radice progetto.
-
-**Prova richiesta:** caricare il file completo, aprire Monitor Seriale 115200 (l'apertura puo resettare il Nano), riselezionare modo 10 con LED 2 e 4 accesi, P3 tutto chiuso, premere MANUAL. Inviare una riga come:
+Per verificare il percorso audio, caricare il firmware, aprire Monitor Seriale 115200 (l'apertura puo resettare il Nano), riselezionare modo 10 con LED 2 e 4 accesi, P3 tutto chiuso, premere MANUAL. Il monitor mostra una riga come:
 
 ```text
 DRUM Hz=6400 K=1 S=1 peakA=900 peakB=700
@@ -117,13 +111,13 @@ DRUM Hz=6400 K=1 S=1 peakA=900 peakB=700
 - peakA/peakB sono il massimo scostamento del **codice DAC inviato** dallo zero dalla selezione del modo: devono diventare maggiori di zero. Non sono volt misurati al jack e non provano che il DAC li abbia ricevuti.
 - Hz=0: motore audio/frame non in esecuzione. Hz normale e K/S=0: eventi non arrivati all'ISR. Hz, K/S e peak validi ma uscite piatte: serve verificare SPI/CS/LDAC e catena analogica sul PCB. Non e corretto attribuirlo automaticamente al trigger.
 
-Il log e attivo soltanto nel modo Drums, disattivato all'uscita. Per escluderlo si puo porre ALTERIA_DRUM_DIAGNOSTICS a 0 e ricompilare. La revisione precedente e conservata come ZIP 2.0.0, ma non e stata dichiarata corretta elettricamente da questa diagnosi.
+Il log e attivo soltanto nel modo Drums, disattivato all'uscita. Per escluderlo si puo porre ALTERIA_DRUM_DIAGNOSTICS a 0 e ricompilare. 
 
 ## Preset e taratura
 
 Modo 16: MANUAL seleziona, MODE lungo 650 ms alterna edit/play, P1/P2 con pickup impostano CV e P3 il gate. Confermare l'uscita dall'editing salva i quattro preset. MODE breve dal 16 torna al modo 1 e salva se necessario. Preset e taratura hanno copie EEPROM distinte con CRC/commit.
 
-Per la procedura nascosta completa leggere [GUIDA_CALIBRAZIONE.md](GUIDA_CALIBRAZIONE.md). MODE+MANUAL al boot, LED1 zero / LED2 +5 / LED3 -5, P1/P2 regolazione a passi con centro fermo; MANUAL conferma, MODE lungo annulla, ultimo LED4 lampeggiante richiede MANUAL 1 s per salvare. Il formato e compatibile con la variante CAL 1.2.0. Non sono state applicate automaticamente le stime delle vecchie misure.
+Per la procedura nascosta completa leggere [GUIDA_CALIBRAZIONE.md](GUIDA_CALIBRAZIONE.md). MODE+MANUAL al boot, LED1 zero / LED2 +5 / LED3 -5, P1/P2 regolazione a passi con centro fermo; MANUAL conferma, MODE lungo annulla, ultimo LED4 lampeggiante richiede MANUAL 1 s per salvare. Il formato e compatibile con la variante CAL 1.2.0. 
 
 ## Verifica
 

@@ -72,7 +72,7 @@ La taratura corregge offset e scale positivo/negativo della scheda completa. Non
 
 ## Test riproducibili
 
-Build core Arduino AVR 1.8.6, FQBN `arduino:avr:nano:cpu=atmega328` con `--warnings all`. Vedere `TEST_REPORT.md` per memoria e risultati finali. Nessun upload o misura della nuova variante eseguiti dall'assistente.
+Build core Arduino AVR 1.8.6, FQBN `arduino:avr:nano:cpu=atmega328` con `--warnings all`. Vedere `TEST_REPORT.md` per memoria e risultati finali. Nessun upload o misura della nuova variante eseguiti .
 
 ```sh
 clang++ -std=c++11 -fsanitize=address,undefined -Itests/stubs tests/calibration_test.cpp -o /tmp/alteria-cal-test
