@@ -2,13 +2,11 @@
 
 ## Source layout and baseline
 
-- `firmware/ALTERIA_ALLROUNDER/ALTERIA_ALLROUNDER.ino`: complete **2.0.2** baseline, recovered byte-for-byte from the versioned distribution ZIP. SHA-256: `6243c5deb29e7082eb011cea992f7d42888b365861dce2ebfaccb5a795f985e9`.
+- `firmware/ALTERIA_ALLROUNDER/ALTERIA_ALLROUNDER.ino`: complete **2.0.2** baseline. SHA-256: `6243c5deb29e7082eb011cea992f7d42888b365861dce2ebfaccb5a795f985e9`.
 - `firmware/ALTERIA_DRUM_LAB/ALTERIA_DRUM_LAB.ino`: **1.0.0**, SHA-256 `fd3f506c6b6d2cbcda7af0ccba06d537417051523a8e54d3c3fb6dfeeb932826`.
 - `firmware/ALTERIA_ALLROUNDER_2_1_0/ALTERIA_ALLROUNDER_2_1_0.ino`: **2.1.0, UNTESTED ON HARDWARE**, SHA-256 `8ddf107946f6a1cc4ac3afaeb559f6f514e96a6905538352006b93c4884da9f2`. Separate experimental variant; 2.0.2 is preserved.
 - `firmware/ALTERIA_FULL_VOICE/ALTERIA_FULL_VOICE.ino`: **1.0.0, UNTESTED ON HARDWARE**, SHA-256 `248a7a62e211e88f59981d5b991aafaff8f4942266af6ba4845ab83b3c8bfc63`. Compiled/software-tested, not physically validated. See its `STATUS.md`.
 - Each firmware has its own manual, attribution, test report, host stubs and optional AVR simulator. Keep all four sketches (three families) in separate directories. [Quick references](quick-reference/README.md) identify exact versions.
-
-The local loose Allrounder file found during publication was only a tail fragment. It was not published or used as a baseline; the complete archive matches the pre-existing build report hash. The original local files were left untouched.
 
 ## Toolchain
 
@@ -42,7 +40,7 @@ Use `cpu=atmega328old` for a Nano that requires the old bootloader. Check USB/ex
 | P1 / P2 / P3 | A0 / A1 / A6 |
 | CV IN / MANUAL / I/O analog | A2 / A3 / A5 |
 
-The output analog stage is inverting: increasing DAC code lowers jack voltage. Route physical voltages through calibration-aware conversion. D3/D5 are LEDs, not legacy PWM DAC mirrors. I/O is not a third analog DAC. The [updated schematic PDF](../hardware/schematics/README.md) supplied on 28 October 2026 is available. Check exact board conditioning and safe jack input limits against the drawing and the assembled board; the PDF upload adds no new bench measurements.
+The output analog stage is inverting: increasing DAC code lowers jack voltage. Route physical voltages through calibration-aware conversion. D3/D5 are LEDs, not legacy PWM DAC mirrors. I/O is not a third analog DAC. The [updated schematic PDF](../hardware/schematics/README.md) is available. Check exact board conditioning and safe jack input limits against the drawing and the assembled board.
 
 ## Where to change behavior
 
