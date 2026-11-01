@@ -13,7 +13,7 @@
 5. Clock/trigger positivo su **CV IN -> A -> OUT1**. Altro trigger su **I/O -> B -> OUT2**. I due percorsi non cambiano quando si seleziona la voce da modificare.
 6. Provare P1 pitch, P2 durata, P3 carattere. I pot hanno **pickup**: dopo un richiamo non modificano il suono finche non raggiungono o attraversano il valore memorizzato. Se un pot sembra fermo, percorrere lentamente tutta la corsa per agganciarlo.
 
-L'utente ha confermato funzionante il percorso DAC dell'Allrounder 2.0.1. Qui si conserva SPI.transfer/digitalWrite e l'impulso LDAC esteso; il nuovo firmware richiede comunque caricamento e ascolto sul modulo. Non sono dichiarati collaudi fisici di DRUM LAB da parte dell'assistente.
+Il driver DAC usa SPI.transfer, digitalWrite e un impulso LDAC esteso. Il collaudo di DRUM LAB richiede misure elettriche e ascolto sul modulo fisico.
 
 ## Pulsanti
 
