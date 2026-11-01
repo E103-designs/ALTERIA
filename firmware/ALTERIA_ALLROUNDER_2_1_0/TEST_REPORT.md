@@ -1,6 +1,6 @@
 # ALTERIA ALLROUNDER 2.1.0 - verifica software
 
-2026-10-31. Target Arduino Nano ATmega328P, 16 MHz, PCB REV5-2. Variante separata dalla 2.0.2, che resta invariata. Nessun upload, ascolto sul modulo o misura elettrica effettuati dall'assistente.
+2026-10-31. Target Arduino Nano ATmega328P, 16 MHz, PCB REV5-2. Variante separata dalla 2.0.2, che resta invariata. Nessun upload, ascolto sul modulo o misura elettrica effettuati .
 
 ## Build finale
 

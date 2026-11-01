@@ -4,8 +4,7 @@
 
 Experimental version for REV5-2 / Nano ATmega328P 16 MHz, published separately
 from 2.0.2. Only mode 10 changes: Acid Voice replaces Mutant Drums. This is not
-a stable/hardware-approved release. The positive user report for the older
-drum audio path does not validate this new voice firmware.
+a stable/hardware-approved release. Hardware qualification must cover this Acid Voice implementation independently of earlier firmware versions.
 
 | Check | Status |
 | --- | --- |

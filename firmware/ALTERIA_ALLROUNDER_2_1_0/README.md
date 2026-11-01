@@ -10,7 +10,7 @@
 
 Aprire `ALTERIA_ALLROUNDER_2_1_0.ino` con Arduino IDE, scheda Arduino Nano, processore ATmega328P (Old Bootloader soltanto se necessario al caricamento). Solo SPI/EEPROM del core AVR; nessuna libreria audio esterna. Usare il file completo o importare lo ZIP, non soltanto un'anteprima parziale.
 
-Taratura ACAL EEPROM 256..301 e preset 128..189 mantengono formato e posizioni della variante CAL: i valori gia salvati vengono riutilizzati. Nessuna scrittura o cancellazione automatica dei valori validi al boot. Non e stato eseguito upload sul modulo dall'assistente.
+Taratura ACAL EEPROM 256..301 e preset 128..189 mantengono formato e posizioni della variante CAL: i valori gia salvati vengono riutilizzati. Nessuna scrittura o cancellazione automatica dei valori validi al boot. Il collaudo di questa versione sul modulo fisico resta da completare.
 
 ## Navigazione e tensioni
 
