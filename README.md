@@ -4,17 +4,16 @@
 
 **Open-source firmware for a compact Eurorack function generator, rhythm utility and lo-fi percussion instrument.** Three knobs, two buttons and two calibrated DAC outputs, with separate **DRUM LAB** and experimental **FULL VOICE** firmware.
 
-<p align="center"><img src="images/ALTERIA_front_IMG_3251_clean.png" height="500" alt="ALTERIA — front, retouched product photograph"> <img src="images/ALTERIA_angled-left_IMG_3253_clean.png" height="500" alt="ALTERIA — angled-left, retouched product photograph"></p>
+<p align="center"><img src="images/front.png" height="500" alt="ALTERIA front view"> <img src="images/angled-left.png" height="500" alt="ALTERIA product view"></p>
 
 <details><summary>More product views</summary>
-<p align="center"><img src="images/ALTERIA_side-left_IMG_3250_clean.png" height="360" alt="ALTERIA — side-left, retouched product photograph"> <img src="images/ALTERIA_side-right_IMG_3252_clean.png" height="360" alt="ALTERIA — side-right, retouched product photograph"> <img src="images/ALTERIA_angled-right_IMG_3254_clean.png" height="360" alt="ALTERIA — angled-right, retouched product photograph"></p>
+<p align="center"><img src="images/side-left.png" height="360" alt="ALTERIA product view"> <img src="images/side-right.png" height="360" alt="ALTERIA product view"> <img src="images/angled-right.png" height="360" alt="ALTERIA product view"></p>
 </details>
 
-<sub>Product photographs retouched with AI for background and lighting. [Photo notes](PHOTO_EDIT_NOTES.md).</sub>
 
 [Allrounder manual](firmware/ALTERIA_ALLROUNDER/README.md) · [Calibration](docs/CALIBRATION.md) · [DRUM LAB](firmware/ALTERIA_DRUM_LAB/README.md) · [Build and modify](docs/DEVELOPMENT.md) · [Schematics](hardware/schematics/README.md)
 
-**Quick reference:** [ALLROUNDER](docs/quick-reference/ALLROUNDER.md) · [DRUMLAB](docs/quick-reference/DRUMLAB.md) · [FULLVOICE - UNTESTED](docs/quick-reference/FULLVOICE.md).
+**Quick reference:** [ALLROUNDER](docs/quick-reference/ALLROUNDER.md) · [DRUMLAB](docs/quick-reference/DRUMLAB.md) · [FULLVOICE - experimental](docs/quick-reference/FULLVOICE.md).
 
 ## Choose your firmware
 
@@ -70,9 +69,9 @@ Calibration is manual, with a multimeter at the output jacks. Hold **MODE + MANU
 
 The six points are stored per board in two CRC-protected EEPROM records. This adjusts output offset and positive/negative scale; it does not calibrate inputs or guarantee perfect 1 V/oct tracking.
 
-## ALLROUNDER 2.1.0 - UNTESTED ON HARDWARE
+## ALLROUNDER 2.1.0 - Acid Voice
 
-**NON TESTATO SU HARDWARE / UNTESTED ON HARDWARE.** Published alongside 2.0.2,
+**Experimental firmware; hardware validation pending.** Published alongside 2.0.2,
 not over it. Only mode 10 changes to **Acid Voice**: P1 decay, P2 resonance,
 P3 Env Mod; CV IN pitch, I/O note trigger, MANUAL saw/square. **OUT1 audio;
 OUT2 positive envelope, not snare audio.** The other 15 modes, calibration and
@@ -81,7 +80,7 @@ not an internal sequencer for the new voice.
 
 [Sketch and manual](firmware/ALTERIA_ALLROUNDER_2_1_0) ·
 [Version comparison / quick reference](docs/quick-reference/ALLROUNDER.md) ·
-[Untested status](firmware/ALTERIA_ALLROUNDER_2_1_0/STATUS.md).
+[Validation status](firmware/ALTERIA_ALLROUNDER_2_1_0/STATUS.md).
 Software-tested, not physically validated. Recorded build: **30012 bytes flash,
 1081 bytes static SRAM**. I/O still changes direction outside modes 3/10:
 disconnect external drivers before exiting or restarting.
@@ -98,9 +97,9 @@ Two independent audio outputs. Assign **Kick, Tom, Synth Perc, Snare, Clap, FM M
 
 Audio runs at **6.4 kHz** with deliberate lo-fi character. There is no internal sequencer: use external triggers or MANUAL. [Read the complete DRUM LAB manual](firmware/ALTERIA_DRUM_LAB/README.md), including EEPROM, LED meanings, calibration and [attribution](firmware/ALTERIA_DRUM_LAB/ATTRIBUTION.md).
 
-## FULL VOICE 1.0.0 - UNTESTED ON HARDWARE
+## FULL VOICE 1.0.0 - experimental synthesizer
 
-**NON TESTATO SU HARDWARE / UNTESTED ON HARDWARE.** This experimental sketch
+**Experimental firmware; hardware validation pending.** This experimental sketch
 has passed compilation, host tests and AVR binary simulation, but has not been
 validated on a physical module. It is not a stable/hardware-approved release.
 
@@ -113,16 +112,18 @@ forward, MANUAL short back; MANUAL held 500 ms auditions a note, MODE held
 
 [Quick reference](docs/quick-reference/FULLVOICE.md) ·
 [Complete manual and sketch](firmware/ALTERIA_FULL_VOICE) ·
-[Untested status](firmware/ALTERIA_FULL_VOICE/STATUS.md).
+[Validation status](firmware/ALTERIA_FULL_VOICE/STATUS.md).
 Lo-fi 6.4 kHz, approximately +/-2.5 V audio and 0..+5 V envelope targets.
 Physical levels, sound and V/oct tracking still require bench tests; output
 ACAL does not calibrate the pitch ADC. Recorded build: **14536 bytes flash,
 513 bytes static SRAM**. Allrounder and DRUM LAB sources remain unchanged.
 
-## Open-source status and verification
+## Open source and development
 
-Complete editable firmware and software tests are included. The **updated two-page schematic PDF supplied on 28 October 2026** is available in [hardware/schematics](hardware/schematics/README.md). Native CAD and a matching manufacturing package remain to be added.
+Arduino sources, build instructions, regression suites and circuit schematics are included. [Development guide](docs/DEVELOPMENT.md) · [Validation results](docs/PUBLICATION_CHECKS.md) · [Schematics](hardware/schematics/README.md).
 
-Allrounder 2.0.2: recorded AVR build **29,448 / 30,720 bytes flash**, **1,094 / 2,048 bytes static SRAM**. DRUM LAB 1.0.0: **18,458 bytes flash**, **966 bytes static SRAM**. Stack and runtime headroom need separate consideration. Existing [Allrounder](firmware/ALTERIA_ALLROUNDER/TEST_REPORT.md) and [DRUM LAB](firmware/ALTERIA_DRUM_LAB/TEST_REPORT.md) reports distinguish host/AVR simulation from measurements on the real board. The prior Allrounder 2.0.1 audio path has a positive user report; the 2.0.2 timbre update and DRUM LAB still need listening and bench verification.
+ALLROUNDER 2.1.0 and FULL VOICE 1.0.0 are experimental, with hardware qualification pending. Version-specific test reports document compilation, simulation and resource use. Native CAD and a matching manufacturing package are not yet included.
 
-Original materials: **GNU GPL-3.0**. [License](LICENSE) · [Notice](NOTICE.md) · [Contribute](CONTRIBUTING.md). Related projects: [faun](https://github.com/E103-designs/faun) · [SINCRIA](https://github.com/E103-designs/SINCRIA).
+Original materials: **GNU GPL-3.0**. [License](LICENSE) · [Notice](NOTICE.md) · [Contribute](CONTRIBUTING.md).
+
+Other E103 projects: [faun](https://github.com/E103-designs/faun) · [SINCRIA](https://github.com/E103-designs/SINCRIA) · [euroTrack](https://github.com/E103-designs/euroTrack).
