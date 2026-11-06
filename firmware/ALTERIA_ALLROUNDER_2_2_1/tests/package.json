@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "devDependencies": {
+    "avr8js": "0.21.1"
+  }
+}
