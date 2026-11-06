@@ -2,7 +2,7 @@
 
 ### One module. Sixteen ways to move a patch.
 
-**Open-source firmware for a compact Eurorack function generator, rhythm utility and lo-fi percussion instrument.** Three knobs, two buttons and two calibrated DAC outputs, with separate **DRUM LAB** and experimental **FULL VOICE** firmware.
+**Open-source firmware for a compact Eurorack function generator, rhythm utility and lo-fi percussion instrument.** Three knobs, two buttons and two calibrated DAC outputs, with separate **DRUM LAB** and experimental **FULL VOICE** and **MACRO VOICE** firmware.
 
 <p align="center"><img src="images/front.png" height="500" alt="ALTERIA front view"> <img src="images/angled-left.png" height="500" alt="ALTERIA product view"></p>
 
@@ -11,22 +11,40 @@
 </details>
 
 
-[Allrounder manual](firmware/ALTERIA_ALLROUNDER/README.md) · [Calibration](docs/CALIBRATION.md) · [DRUM LAB](firmware/ALTERIA_DRUM_LAB/README.md) · [Build and modify](docs/DEVELOPMENT.md) · [Schematics](hardware/schematics/README.md)
+[Allrounder manual](docs/quick-reference/ALLROUNDER.md) · [Calibration](docs/CALIBRATION.md) · [DRUM LAB](firmware/ALTERIA_DRUM_LAB/README.md) · [Build and modify](docs/DEVELOPMENT.md) · [Schematics](hardware/schematics/README.md)
 
-**Quick reference:** [ALLROUNDER](docs/quick-reference/ALLROUNDER.md) · [DRUMLAB](docs/quick-reference/DRUMLAB.md) · [FULLVOICE - experimental](docs/quick-reference/FULLVOICE.md).
+**Quick reference:** [ALLROUNDER](docs/quick-reference/ALLROUNDER.md) · [DRUMLAB](docs/quick-reference/DRUMLAB.md) · [FULLVOICE - experimental](docs/quick-reference/FULLVOICE.md) · [MACRO VOICE - experimental](docs/quick-reference/MACRO_VOICE.md).
 
 ## Choose your firmware
 
 | Firmware | Version | Purpose | Hardware |
 | --- | --- | --- | --- |
+| **[ALLROUNDER](firmware/ALTERIA_ALLROUNDER_2_2_1/README.md)** | **2.2.1**, 6 November 2026, **UNTESTED ON HARDWARE** | Sixteen CV/gate modes; ORBIT melody generator, Turing clock-through, eight presets | REV5-2, Nano ATmega328P, 16 MHz |
 | **ALLROUNDER** | **2.0.2**, 27 October 2026 | Sixteen modes covering envelopes, rhythm, modulation, pitch CV and two drum voices | REV5-2, Nano ATmega328P, 16 MHz |
 | **ALLROUNDER - experimental variant** | **2.1.0**, 31 October 2026, **UNTESTED ON HARDWARE** | Same 16-mode layout; mode 10 Acid Voice replaces Mutant Drums | Same hardware |
 | **DRUM LAB** | **1.0.0**, 27 October 2026 | Two independent percussion voices, each with eight selectable engines and three effects | Same hardware |
 | **FULL VOICE** | **1.0.0**, 31 October 2026, **UNTESTED ON HARDWARE** | Mono oscillator/filter/VCA voice, four editing pages, AD envelope, nominal V/oct + trigger input | Same hardware |
+| **[MACRO VOICE](firmware/ALTERIA_MACRO_VOICE/README.md)** | **1.0.0**, 6 November 2026, **UNTESTED ON HARDWARE** | Five oscillator models at 8 kHz, dual audio, nominal V/oct + sync/pluck input | Same hardware |
 
 These are separate sketches; upload one at a time. They do not require an external audio library. SPI and EEPROM come with the Arduino AVR core. **ATmega168P is not a supported replacement for these releases.**
 
 Download this repository with **Code → Download ZIP**, extract it, and open the matching `.ino` inside its own folder under `firmware/`. In Arduino IDE select **Arduino Nano → ATmega328P**; choose Old Bootloader only if required by your Nano. The [development guide](docs/DEVELOPMENT.md) includes reproducible CLI builds and tests.
+
+## ALLROUNDER 2.2.1 - ORBIT and Turing
+
+**Experimental firmware; hardware validation pending.** ORBIT replaces mode 10
+with a clocked melody generator: CV IN clock, OUT1 pitch, OUT2 accent, I/O note
+gate. It generates CV/gate only, not audio. Mode 12 keeps the register CV on
+OUT1, holds the register bit on OUT2 and mirrors CV IN or MANUAL on I/O.
+Mode 16 has eight CV/gate presets and reads the previous four without
+overwriting their EEPROM records.
+
+**Disconnect any external trigger from I/O before switching to 2.2.1.
+In ORBIT that jack is an output; patch the clock to CV IN.**
+
+[Sketch and manual](firmware/ALTERIA_ALLROUNDER_2_2_1/README.md) ·
+[Quick reference](docs/quick-reference/ALLROUNDER.md) ·
+[Validation status](firmware/ALTERIA_ALLROUNDER_2_2_1/STATUS.md). Versions 2.0.2 and 2.1.0 remain available.
 
 ## ALLROUNDER 2.0.2
 
@@ -118,11 +136,25 @@ Physical levels, sound and V/oct tracking still require bench tests; output
 ACAL does not calibrate the pitch ADC. Recorded build: **14536 bytes flash,
 513 bytes static SRAM**. Allrounder and DRUM LAB sources remain unchanged.
 
+## MACRO VOICE 1.0.0 - experimental oscillator
+
+Five original oscillator models: **Fold, FM, Chord, Wavetable and Karplus**.
+OUT1 and OUT2 are both audio. CV IN is nominal 1 V/oct; I/O always remains an
+input for phase sync or a Karplus pluck. The first four models run continuously.
+No LPG, VCA, envelope or output filter. The existing output calibration is read
+without writing to EEPROM.
+
+[Sketch and manual](firmware/ALTERIA_MACRO_VOICE/README.md) ·
+[Quick reference](docs/quick-reference/MACRO_VOICE.md) ·
+[Stereo WAV demo (20 seconds)](firmware/ALTERIA_MACRO_VOICE/ALTERIA_MACRO_VOICE_1_0_0.wav) ·
+[Test report](firmware/ALTERIA_MACRO_VOICE/TEST_REPORT.md).
+The demo is rendered from the firmware DSP, not recorded from hardware.
+
 ## Open source and development
 
 Arduino sources, build instructions, regression suites and circuit schematics are included. [Development guide](docs/DEVELOPMENT.md) · [Validation results](docs/PUBLICATION_CHECKS.md) · [Schematics](hardware/schematics/README.md).
 
-ALLROUNDER 2.1.0 and FULL VOICE 1.0.0 are experimental, with hardware qualification pending. Version-specific test reports document compilation, simulation and resource use. Native CAD and a matching manufacturing package are not yet included.
+ALLROUNDER 2.1.0/2.2.1, FULL VOICE 1.0.0 and MACRO VOICE 1.0.0 are experimental, with hardware qualification pending. Version-specific test reports document compilation, simulation and resource use. Native CAD and a matching manufacturing package are not yet included.
 
 Original materials: **GNU GPL-3.0**. [License](LICENSE) · [Notice](NOTICE.md) · [Contribute](CONTRIBUTING.md).
 
