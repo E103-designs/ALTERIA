@@ -6,7 +6,9 @@
 - `firmware/ALTERIA_DRUM_LAB/ALTERIA_DRUM_LAB.ino`: **1.0.0**, SHA-256 `fd3f506c6b6d2cbcda7af0ccba06d537417051523a8e54d3c3fb6dfeeb932826`.
 - `firmware/ALTERIA_ALLROUNDER_2_1_0/ALTERIA_ALLROUNDER_2_1_0.ino`: **2.1.0, UNTESTED ON HARDWARE**, SHA-256 `8ddf107946f6a1cc4ac3afaeb559f6f514e96a6905538352006b93c4884da9f2`. Separate experimental variant; 2.0.2 is preserved.
 - `firmware/ALTERIA_FULL_VOICE/ALTERIA_FULL_VOICE.ino`: **1.0.0, UNTESTED ON HARDWARE**, SHA-256 `248a7a62e211e88f59981d5b991aafaff8f4942266af6ba4845ab83b3c8bfc63`. Compiled/software-tested, not physically validated. See its `STATUS.md`.
-- Each firmware has its own manual, attribution, test report, host stubs and optional AVR simulator. Keep all four sketches (three families) in separate directories. [Quick references](quick-reference/README.md) identify exact versions.
+- `firmware/ALTERIA_ALLROUNDER_2_2_1/ALTERIA_ALLROUNDER_2_2_1.ino`: **2.2.1, UNTESTED ON HARDWARE**. See its [test report](../firmware/ALTERIA_ALLROUNDER_2_2_1/TEST_REPORT.md).
+- `firmware/ALTERIA_MACRO_VOICE/ALTERIA_MACRO_VOICE.ino`: **1.0.0, UNTESTED ON HARDWARE**. See its [test report](../firmware/ALTERIA_MACRO_VOICE/TEST_REPORT.md).
+- Each firmware has its own manual, attribution, test report, host stubs and optional AVR simulator. Keep all six sketches in separate directories. [Quick references](quick-reference/README.md) identify exact versions.
 
 ## Toolchain
 
@@ -21,6 +23,8 @@ arduino-cli compile --warnings all --fqbn arduino:avr:nano:cpu=atmega328 --build
 arduino-cli compile --warnings all --fqbn arduino:avr:nano:cpu=atmega328 --build-path /tmp/alteria-drum-lab-build firmware/ALTERIA_DRUM_LAB
 arduino-cli compile --warnings all --fqbn arduino:avr:nano:cpu=atmega328 --build-path /tmp/alteria-full-voice-build firmware/ALTERIA_FULL_VOICE
 arduino-cli compile --warnings all --fqbn arduino:avr:nano:cpu=atmega328 --build-path /tmp/alteria-allrounder-210-build firmware/ALTERIA_ALLROUNDER_2_1_0
+arduino-cli compile --warnings all --fqbn arduino:avr:nano:cpu=atmega328 --build-path /tmp/alteria-allrounder-221-build firmware/ALTERIA_ALLROUNDER_2_2_1
+arduino-cli compile --warnings all --fqbn arduino:avr:nano:cpu=atmega328 --build-path /tmp/alteria-macro-voice-build firmware/ALTERIA_MACRO_VOICE
 arduino-cli board list
 # Replace PORT with the serial port reported above; choose one sketch:
 arduino-cli upload --port PORT --fqbn arduino:avr:nano:cpu=atmega328 firmware/ALTERIA_ALLROUNDER
@@ -52,13 +56,15 @@ For DRUM LAB follow `setup()`/`loop()` into the selected engine and audio tick. 
 
 ## Resource and interface constraints
 
-Allrounder uses about 95% of application flash. Static SRAM figures exclude stack. Avoid heap allocations and large buffers; keep constant tables in PROGMEM where appropriate. Timer1 and SPI belong to the 6.4 kHz audio engine while active. Added Servo/audio/SPI/interrupt libraries can break that ownership and timing. DRUM LAB's recorded worst observed ISR is 2368 of 2500 cycles; that is a narrow observed margin, not an exhaustive guarantee.
+Allrounder uses about 95% of application flash. Static SRAM figures exclude stack. Avoid heap allocations and large buffers; keep constant tables in PROGMEM where appropriate. Timer1 and SPI belong to the audio engine while active (6.4 kHz on the earlier audio sketches, 8 kHz on MACRO VOICE). ALLROUNDER 2.2.1 has no audio engine. Added Servo/audio/SPI/interrupt libraries can break that ownership and timing. DRUM LAB's recorded worst observed ISR is 2368 of 2500 cycles; that is a narrow observed margin, not an exhaustive guarantee.
 
-Use rollover-safe unsigned time differences, non-blocking services, bounded arithmetic and atomic access for shared ISR state. Stop the audio engine before restoring the CV driver. In Allrounder I/O must be INPUT in modes 3/10 and calibration, OUTPUT only where intended; in DRUM LAB it remains INPUT. Document direction changes and test them without external driver contention.
+Use rollover-safe unsigned time differences, non-blocking services, bounded arithmetic and atomic access for shared ISR state. Stop the audio engine before restoring the CV driver. In ALLROUNDER 2.0.2/2.1.0 I/O is INPUT in modes 3/10 and calibration; in 2.2.1, mode 10 is an OUTPUT. In DRUM LAB, FULL VOICE and MACRO VOICE it remains INPUT. Document direction changes and test them without external driver contention.
 
 ## Tests
 
-From repository root, `sh tools/test_host.sh` runs all eleven host suites.
+From repository root, `sh tools/test_host.sh` runs all 17 host suites.
+ALLROUNDER 2.2.1 runs five suites, including ORBIT/presets and Turing routing.
+MACRO VOICE runs one suite covering all five engines and ACAL read/fallback.
 ALLROUNDER 2.1.0 adds four suites, including `tests/acid_voice_test.cpp`.
 FULL VOICE adds `tests/full_voice_test.cpp` and `tests/calibration_test.cpp`;
 its AVR harness also accepts `--cal` after the build directory. These tests do
