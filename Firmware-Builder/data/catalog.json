@@ -1,0 +1,2491 @@
+{
+  "schemaVersion": 1,
+  "version": "3.1.0",
+  "target": "nano328p-rev5-2",
+  "modes": [
+    {
+      "id": "ar_ad",
+      "name": "AD Shaper",
+      "family": "Envelope",
+      "description": "Inviluppo AD finito, retrigger dal livello corrente, eventi di fine salita e ciclo.",
+      "source": "firmwares/ALTERIA_ALLROUNDER_2_2_1/ALTERIA_ALLROUNDER_2_2_1.ino",
+      "sourceSha256": "c539ad7523042a8c67aa10d10bb06c48bb91b54503e84c1dbeff98bbc3ba0872",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Attack 2..5000 ms",
+          "range": "2..5000 ms",
+          "curve": "Quadratica",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P2",
+          "function": "Decay 2..5000 ms",
+          "range": "2..5000 ms",
+          "curve": "Quadratica",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P3",
+          "function": "12 coppie curva Attack/Decay",
+          "range": "12 coppie LOG/LIN/EXP × LOG/LIN/EXP/S",
+          "curve": "12 settori con isteresi 7 ADC",
+          "acquisition": "Al fronte di trigger/clock"
+        }
+      ],
+      "cv": "Trigger AD; retrigger dal livello attuale.",
+      "manual": "Come CV IN",
+      "out1": "Inviluppo",
+      "out2": "End of Rise 10 ms",
+      "io": "End of Fall 10 ms",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "codeKey": "ar_ad",
+      "entry": "adPhase=AD_IDLE;adValue=adStartValue=0;adEor.active=adEof.active=false;",
+      "tick": "serviceAD(nowUs,trig);",
+      "algorithmSha256": "732af1ff1c9652d0207f696671dd4059328a151bf4314e23cc29a154fb8d5676",
+      "version": "1.0"
+    },
+    {
+      "id": "ar_ar",
+      "name": "AR Gate",
+      "family": "Envelope",
+      "description": "Gate con attack, sustain finché tenuto e release; uscita CV complementare.",
+      "source": "firmwares/ALTERIA_ALLROUNDER_2_2_1/ALTERIA_ALLROUNDER_2_2_1.ino",
+      "sourceSha256": "c539ad7523042a8c67aa10d10bb06c48bb91b54503e84c1dbeff98bbc3ba0872",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Attack 2..5000 ms",
+          "range": "2..5000 ms",
+          "curve": "Quadratica",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P2",
+          "function": "Release 2..5000 ms",
+          "range": "2..5000 ms",
+          "curve": "Quadratica",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P3",
+          "function": "Curva LOG/LIN/EXP",
+          "range": "LOG / LIN / EXP",
+          "curve": "Tre regioni alle soglie ADC 341 / 683 (nessuna isteresi)",
+          "acquisition": "Al fronte di trigger/clock"
+        }
+      ],
+      "cv": "Gate e trigger",
+      "manual": "Gate OR CV",
+      "out1": "Inviluppo",
+      "out2": "Inviluppo inverso",
+      "io": "End of Release 10 ms",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "codeKey": "ar_ar",
+      "entry": "arPhase=AR_IDLE;arValue=arStartValue=0;arEor.active=false;out2(4095);",
+      "tick": "serviceAR(nowUs,trig);",
+      "algorithmSha256": "80f5274d75081136eaf07dce3fa31c2f39705952b18b430d6e0f4fc271b4fc0c",
+      "version": "1.0"
+    },
+    {
+      "id": "ar_dual_decay",
+      "name": "Dual Decay",
+      "family": "Envelope",
+      "description": "Due decay vactrol indipendenti, con memoria dei colpi precedenti.",
+      "source": "firmwares/ALTERIA_ALLROUNDER_2_2_1/ALTERIA_ALLROUNDER_2_2_1.ino",
+      "sourceSha256": "c539ad7523042a8c67aa10d10bb06c48bb91b54503e84c1dbeff98bbc3ba0872",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Decay A",
+          "range": "7..1400 ms",
+          "curve": "Quadratica",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P2",
+          "function": "Decay B",
+          "range": "7..1400 ms",
+          "curve": "Quadratica",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P3",
+          "function": "Carattere vactrol",
+          "range": "ADC 0..1023: strike 3..18 ms, miscela lenta 0..56%",
+          "curve": "Lineare",
+          "acquisition": "Al fronte di trigger/clock"
+        }
+      ],
+      "cv": "Trigger A",
+      "manual": "Eccita entrambi i decay",
+      "out1": "Decay A",
+      "out2": "Decay B",
+      "io": "Ingresso trigger B",
+      "ioDirection": "input",
+      "range": "0..+5 V nominali",
+      "dependencies": [],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "codeKey": "ar_dual_decay",
+      "entry": "vA.fastQ8=vA.slowQ8=vB.fastQ8=vB.slowQ8=0;vA.striking=vB.striking=false;",
+      "tick": "serviceDualDecay(nowUs,a,b,dtMs);",
+      "algorithmSha256": "2fbd4ddd447b6058b0c264e9ec99b8e12246ce4820d1e296a30a8b821c32ca96",
+      "version": "1.0"
+    },
+    {
+      "id": "ar_ducking",
+      "name": "Ducking",
+      "family": "Envelope",
+      "description": "Follower di CV e curva di attenuazione, senza percorso audio in ingresso.",
+      "source": "firmwares/ALTERIA_ALLROUNDER_2_2_1/ALTERIA_ALLROUNDER_2_2_1.ino",
+      "sourceSha256": "c539ad7523042a8c67aa10d10bb06c48bb91b54503e84c1dbeff98bbc3ba0872",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Tempo discesa",
+          "range": "Salita follower 1..300 ms",
+          "curve": "Quadratica",
+          "acquisition": "Live, campionamento dei pot ogni 12 ms"
+        },
+        {
+          "pot": "P2",
+          "function": "Tempo risalita",
+          "range": "Discesa follower 4..2500 ms",
+          "curve": "Quadratica",
+          "acquisition": "Live, campionamento dei pot ogni 12 ms"
+        },
+        {
+          "pot": "P3",
+          "function": "Profondità ducking",
+          "range": "Profondità 0..100%",
+          "curve": "Lineare",
+          "acquisition": "Live, campionamento dei pot ogni 12 ms"
+        }
+      ],
+      "cv": "CV continuo: follower",
+      "manual": "Simula CV piena scala (+5 V nominali) finché tenuto.",
+      "out1": "Gain ducking",
+      "out2": "Envelope follower",
+      "io": "Stato duck",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "codeKey": "ar_ducking",
+      "entry": "followQ8=0;followGate=false;out1(4095);",
+      "tick": "serviceDucking(nowUs,dtMs);",
+      "algorithmSha256": "399118daab0421682e6f7e5e68985df7555b84b7df853cf0c5eb7d2bd95ddcec",
+      "version": "1.0"
+    },
+    {
+      "id": "ar_burst",
+      "name": "Burst",
+      "family": "Rhythm",
+      "description": "Un trigger avvia una raffica finita e una CV a rampa sagomata.",
+      "source": "firmwares/ALTERIA_ALLROUNDER_2_2_4/ALTERIA_ALLROUNDER_2_2_4.ino",
+      "sourceSha256": "75e870097aa38b71ab891140f9707860c79d7b068ea448e196454e6c6d5472e3",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Spacing",
+          "range": "600 ms CCW → 8 ms CW",
+          "curve": "Quadratica",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P2",
+          "function": "Numero eventi",
+          "range": "1..16 eventi",
+          "curve": "16 settori uniformi",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P3",
+          "function": "Curva ramp",
+          "range": "LOG / LIN / EXP",
+          "curve": "Tre regioni",
+          "acquisition": "Live, ogni 12 ms"
+        }
+      ],
+      "cv": "Avvia/retriggera una raffica finita; cancella la precedente.",
+      "manual": "Avvia/retriggera una raffica; tenuto non ripete.",
+      "out1": "Ramp down 0..+5 V",
+      "out2": "Complementare positivo",
+      "io": "Trigger di ogni evento",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "fast": false,
+      "codeKey": "ar_burst",
+      "entry": "",
+      "tick": "modeBurst(nowMs);",
+      "algorithmSha256": "63ee74e301cee4e2e270a66cca52a1c125ca6cc9f81fa74f90a6a06a3ff99eb2",
+      "version": "1.0"
+    },
+    {
+      "id": "ar_tremolo",
+      "name": "Tremolo / AutoPan",
+      "family": "Rhythm",
+      "description": "Due CV complementari con transizione da oscillazione regolare a movimento casuale.",
+      "source": "firmwares/ALTERIA_ALLROUNDER_2_2_4/ALTERIA_ALLROUNDER_2_2_4.ino",
+      "sourceSha256": "75e870097aa38b71ab891140f9707860c79d7b068ea448e196454e6c6d5472e3",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Velocità",
+          "range": "Incremento fase 2..2200 / ms",
+          "curve": "Quadratica",
+          "acquisition": "Live, campionamento dei pot ogni 12 ms"
+        },
+        {
+          "pot": "P2",
+          "function": "Ampiezza",
+          "range": "Ampiezza 0..2047 livelli Q12",
+          "curve": "Quadratica",
+          "acquisition": "Live, campionamento dei pot ogni 12 ms"
+        },
+        {
+          "pot": "P3",
+          "function": "Randomizzazione",
+          "range": "Randomizzazione ADC 0..1023; regione chaos oltre 650",
+          "curve": "Lineare",
+          "acquisition": "Live, campionamento dei pot ogni 12 ms"
+        }
+      ],
+      "cv": "Fronte crescente: risincronizza senza cambiare polarità.",
+      "manual": "Commuta OUT1 e OUT2 tra 0…+5 V e −5…+5 V senza risincronizzare.",
+      "out1": "Modulazione unipolare o bipolare",
+      "out2": "Complementare unipolare o bipolare",
+      "io": "Crossing semiciclo / cambio target random",
+      "ioDirection": "output",
+      "range": "0..+5 V default; −5..+5 V su MANUAL",
+      "dependencies": [],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "fast": false,
+      "codeKey": "ar_tremolo",
+      "entry": "",
+      "tick": "if(pendingManual){bipolarOutputs=!bipolarOutputs;dacLastA=dacLastB=0xFFFF;out1(output1Q12);out2(output2Q12);latchDac();}resetTriggered=pendingCv;modeTremoloAutoPan(nowMs);",
+      "algorithmSha256": "7419055559a1ec195f99e02edfe844e181b0f9f3cc36def845ba6a56b49066ac",
+      "version": "1.0"
+    },
+    {
+      "id": "ar_grids",
+      "name": "Grids XY",
+      "family": "Rhythm",
+      "description": "Tre corsie ritmiche deterministiche; il clock esterno percorre pattern di 16 step.",
+      "source": "firmwares/ALTERIA_ALLROUNDER_2_2_1/ALTERIA_ALLROUNDER_2_2_1.ino",
+      "sourceSha256": "c539ad7523042a8c67aa10d10bb06c48bb91b54503e84c1dbeff98bbc3ba0872",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "X: 4 settori",
+          "range": "X 0..3",
+          "curve": "4 settori uniformi",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P2",
+          "function": "Y: 4 settori",
+          "range": "Y 0..3",
+          "curve": "4 settori uniformi",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P3",
+          "function": "Densità",
+          "range": "Densità 0..100%",
+          "curve": "Lineare",
+          "acquisition": "Al fronte di trigger/clock"
+        }
+      ],
+      "cv": "Ogni fronte crescente avanza di uno step il pattern.",
+      "manual": "Ogni pressione avanza di uno step; tenuto non ripete.",
+      "out1": "Kick trigger",
+      "out2": "Snare trigger",
+      "io": "Hat trigger",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "fast": false,
+      "codeKey": "ar_grids",
+      "entry": "",
+      "tick": "modeGridsXY(nowMs);",
+      "algorithmSha256": "595e006eea5a26dbc4ea9056cc06f58485de75e7b453064e7c58f7dd56e52feb",
+      "version": "1.0"
+    },
+    {
+      "id": "ar_xor",
+      "name": "Logic XOR",
+      "family": "Rhythm",
+      "description": "Due clock autonomi e combinazione XOR; il trigger risincronizza.",
+      "source": "firmwares/ALTERIA_ALLROUNDER_2_2_4/ALTERIA_ALLROUNDER_2_2_4.ino",
+      "sourceSha256": "75e870097aa38b71ab891140f9707860c79d7b068ea448e196454e6c6d5472e3",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Periodo A",
+          "range": "2000 ms CCW → 10 ms CW",
+          "curve": "Quadratica",
+          "acquisition": "Live, campionamento dei pot ogni 12 ms"
+        },
+        {
+          "pot": "P2",
+          "function": "Periodo B",
+          "range": "2000 ms CCW → 10 ms CW",
+          "curve": "Quadratica",
+          "acquisition": "Live, campionamento dei pot ogni 12 ms"
+        },
+        {
+          "pot": "P3",
+          "function": "Skew B",
+          "range": "Skew 0..100% del periodo B",
+          "curve": "Lineare",
+          "acquisition": "Live, campionamento dei pot ogni 12 ms"
+        }
+      ],
+      "cv": "Risincronizza entrambi i clock con lo skew B.",
+      "manual": "Come CV IN; i clock poi continuano autonomamente.",
+      "out1": "Clock A 0/+5 V",
+      "out2": "Clock B 0/+5 V",
+      "io": "A XOR B",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "fast": false,
+      "codeKey": "ar_xor",
+      "entry": "",
+      "tick": "modeLogicXOR(nowMs);",
+      "algorithmSha256": "9a62e245622c581b818d18eed225f15a5ee5db1bd74a901c8c2a3fadccdeb3ff",
+      "version": "1.0"
+    },
+    {
+      "id": "ar_turing",
+      "name": "Turing Machine",
+      "family": "Rhythm",
+      "description": "Registro mutante: CV e bit mantenuti; I/O segue il gate CV IN OR MANUAL.",
+      "source": "firmwares/ALTERIA_ALLROUNDER_2_2_4/ALTERIA_ALLROUNDER_2_2_4.ino",
+      "sourceSha256": "75e870097aa38b71ab891140f9707860c79d7b068ea448e196454e6c6d5472e3",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Double-lock / slip / random / slip / lock",
+          "range": "100% inversione CCW, 50% al centro, 0% CW",
+          "curve": "Zone di lock agli estremi e curva quadratica verso il centro",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P2",
+          "function": "Lunghezza 1..16",
+          "range": "Lunghezza 1..16 bit",
+          "curve": "map intero: 16 solo a fondo corsa",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P3",
+          "function": "Quantizzazione continua / 24 / 12 / 8 / 5 / 3 livelli",
+          "range": "Continua con ADC <150; 24/12/8/5/3 livelli alle soglie 150/340/520/700/880",
+          "curve": "Selettore discreto",
+          "acquisition": "Al fronte di trigger/clock"
+        }
+      ],
+      "cv": "Ogni fronte crescente avanza il registro; livello tenuto contribuisce al gate I/O.",
+      "manual": "Ogni pressione avanza una volta; tenuto mantiene I/O alto, anche con CV basso.",
+      "out1": "CV registro 0..+5 V",
+      "out2": "Bit mantenuto 0/+5 V",
+      "io": "CV IN OR MANUAL tenuti",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [
+        "DAC latcheato prima della salita I/O. P1 CCW: ciclo invertito 2N; CW: ciclo diretto N. Nessuna scala musicale."
+      ],
+      "fast": true,
+      "codeKey": "ar_turing",
+      "entry": "",
+      "tick": "modeTuring(nowMs);",
+      "algorithmSha256": "09501438e0a3a361c7f1f8830639ed8d6eaf0f7db9b5a6e7d622948441037a29",
+      "version": "1.0"
+    },
+    {
+      "id": "ar_humanizer",
+      "name": "Humanizer",
+      "family": "Rhythm",
+      "description": "Variazioni temporali correlate di tre uscite da uno stesso clock.",
+      "source": "firmwares/ALTERIA_ALLROUNDER_2_2_1/ALTERIA_ALLROUNDER_2_2_1.ino",
+      "sourceSha256": "c539ad7523042a8c67aa10d10bb06c48bb91b54503e84c1dbeff98bbc3ba0872",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Jitter A",
+          "range": "Jitter 0..25% periodo",
+          "curve": "Lineare",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P2",
+          "function": "Swing B",
+          "range": "Swing 0..33% periodo",
+          "curve": "Lineare",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P3",
+          "function": "Variazione gate",
+          "range": "Variazione ampiezza temporale gate 0..100%",
+          "curve": "Lineare",
+          "acquisition": "Al fronte di trigger/clock"
+        }
+      ],
+      "cv": "Clock: ogni salita genera un gruppo di eventi variati.",
+      "manual": "Un evento clock per pressione; tenuto non ripete.",
+      "out1": "Trigger A con jitter",
+      "out2": "Trigger B con swing",
+      "io": "Gate con durata variabile",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "fast": false,
+      "codeKey": "ar_humanizer",
+      "entry": "",
+      "tick": "modeHumanizer(nowMs);",
+      "algorithmSha256": "8077d262145b136fe0c242b66794027d456ed226ab373fb772368d971b82b6bf",
+      "version": "1.0"
+    },
+    {
+      "id": "ar_bernoulli",
+      "name": "Bernoulli 3",
+      "family": "Rhythm",
+      "description": "Ogni evento sceglie una delle tre destinazioni, con memoria della rotta.",
+      "source": "firmwares/ALTERIA_ALLROUNDER_2_2_1/ALTERIA_ALLROUNDER_2_2_1.ino",
+      "sourceSha256": "c539ad7523042a8c67aa10d10bb06c48bb91b54503e84c1dbeff98bbc3ba0872",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Bilanciamento A/B",
+          "range": "A/B 100/0..0/100% della quota residua",
+          "curve": "Lineare",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P2",
+          "function": "Probabilità C",
+          "range": "Probabilità I/O 0..95%",
+          "curve": "Lineare",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P3",
+          "function": "Stickiness",
+          "range": "Stickiness 0..95%",
+          "curve": "Lineare",
+          "acquisition": "Al fronte di trigger/clock"
+        }
+      ],
+      "cv": "Una salita instrada un evento su una sola destinazione.",
+      "manual": "Una pressione instrada un evento; tenuto non ripete.",
+      "out1": "Route A trigger",
+      "out2": "Route B trigger",
+      "io": "Route C trigger",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "fast": false,
+      "codeKey": "ar_bernoulli",
+      "entry": "",
+      "tick": "modeBernoulli3(nowMs);",
+      "algorithmSha256": "16b5a42592e17461b45389d34a9591dd9ce9ec1a61a43dfe4af89e6ded1b7e48",
+      "version": "1.0"
+    },
+    {
+      "id": "ar_trance",
+      "name": "Trance Gate · 24 pattern",
+      "family": "Rhythm",
+      "description": "Pattern di gate e accenti: 24 frasi di 16 step, avanzamento esterno.",
+      "source": "firmwares/ALTERIA_ALLROUNDER_2_2_1/ALTERIA_ALLROUNDER_2_2_1.ino",
+      "sourceSha256": "c539ad7523042a8c67aa10d10bb06c48bb91b54503e84c1dbeff98bbc3ba0872",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "24 pattern",
+          "range": "24 pattern",
+          "curve": "24 settori uniformi",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P2",
+          "function": "Durata gate",
+          "range": "5..95% periodo; minimo 2..4 ms",
+          "curve": "Lineare",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P3",
+          "function": "Profondità accento",
+          "range": "Accent depth 0..4095 Q12",
+          "curve": "Lineare",
+          "acquisition": "Al fronte di trigger/clock"
+        }
+      ],
+      "cv": "Fronte crescente: evento/reset.",
+      "manual": "Come CV IN; una pressione = un evento.",
+      "out1": "Pattern principale",
+      "out2": "Accento positivo",
+      "io": "Trigger accento",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "codeKey": "ar_trance",
+      "entry": "",
+      "tick": "modeTranceGate(nowMs);",
+      "algorithmSha256": "8e92d332bdf2515b9affe6a6e80fae40d44e7af4cd5fd78f7f7ed748eef068d0",
+      "version": "1.0"
+    },
+    {
+      "id": "ar_clock3",
+      "name": "Triple Clock / Tap",
+      "family": "Rhythm",
+      "description": "Tre clock a rapporti indipendenti con master autonomo, clock esterno prioritario e tap tempo.",
+      "source": "firmwares/ALTERIA_ALLROUNDER_2_2_1/ALTERIA_ALLROUNDER_2_2_1.ino",
+      "sourceSha256": "c539ad7523042a8c67aa10d10bb06c48bb91b54503e84c1dbeff98bbc3ba0872",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Rapporto OUT1",
+          "range": "/8 /6 /4 /3 /2 x1 x2 x3 x4 x6 x8",
+          "curve": "11 settori uniformi",
+          "acquisition": "Live, campionamento dei pot ogni 12 ms"
+        },
+        {
+          "pot": "P2",
+          "function": "Rapporto OUT2",
+          "range": "/8 /6 /4 /3 /2 x1 x2 x3 x4 x6 x8",
+          "curve": "11 settori uniformi",
+          "acquisition": "Live, campionamento dei pot ogni 12 ms"
+        },
+        {
+          "pot": "P3",
+          "function": "Rapporto I/O",
+          "range": "/8 /6 /4 /3 /2 x1 x2 x3 x4 x6 x8",
+          "curve": "11 settori uniformi",
+          "acquisition": "Live, campionamento dei pot ogni 12 ms"
+        }
+      ],
+      "cv": "Clock esterno prioritario; al distacco continua all’ultimo tempo.",
+      "manual": "Almeno tre tap; media degli ultimi due intervalli.",
+      "out1": "Clock 50% duty",
+      "out2": "Clock 50% duty",
+      "io": "Clock 50% duty",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "fast": true,
+      "codeKey": "ar_clock3",
+      "entry": "",
+      "tick": "serviceClock3(nowUs,cvRising,manualBtn.rising);",
+      "algorithmSha256": "e04863862469e23a615f82d781a2aab60f2cbc83f99a20b696355163d344694f",
+      "version": "1.0"
+    },
+    {
+      "id": "ar_acid",
+      "name": "Acid Generator",
+      "family": "Rhythm",
+      "description": "Sequencer CV frigio a 16 step con pause, accenti e slide; nessuna sintesi audio.",
+      "source": "firmwares/ALTERIA_ALLROUNDER_2_2_1/ALTERIA_ALLROUNDER_2_2_1.ino",
+      "sourceSha256": "c539ad7523042a8c67aa10d10bb06c48bb91b54503e84c1dbeff98bbc3ba0872",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Densità",
+          "range": "0..16 note attive",
+          "curve": "Lineare",
+          "acquisition": "Alla generazione della frase"
+        },
+        {
+          "pot": "P2",
+          "function": "Spread note/ottave",
+          "range": "Pool 0..6, massimo 0..2 ottave",
+          "curve": "Lineare",
+          "acquisition": "Alla generazione della frase"
+        },
+        {
+          "pot": "P3",
+          "function": "Slide / accenti",
+          "range": "Probabilità slide/accento 0..circa 50%",
+          "curve": "Lineare",
+          "acquisition": "Alla generazione della frase"
+        }
+      ],
+      "cv": "Clock: avanza frase frigia di 16 step.",
+      "manual": "Rigenera frase e torna al primo step.",
+      "out1": "Pitch CV",
+      "out2": "Accento",
+      "io": "Gate",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "fast": false,
+      "codeKey": "ar_acid",
+      "entry": "acidStep=0;acidHaveClock=false;acidGate=false;acidPreviousSlide=false;acidValue=acidTarget=acidFrom=0;acidGlideMs=0;acidGenerate();",
+      "tick": "if(pendingManual)pendingAcidGenerate=true;modeAcid(nowMs,pendingCv);",
+      "algorithmSha256": "721001e58018d90cbf58ebaf35f2e7dacf30cd7528d16aaea67516b971384bb1",
+      "version": "1.0"
+    },
+    {
+      "id": "ar_orbit",
+      "name": "ORBIT",
+      "family": "Rhythm",
+      "description": "Frasi melodiche di 16 step con motivi e ritorno alla tonica; quattro scale.",
+      "source": "firmwares/ALTERIA_ALLROUNDER_2_2_1/ALTERIA_ALLROUNDER_2_2_1.ino",
+      "sourceSha256": "c539ad7523042a8c67aa10d10bb06c48bb91b54503e84c1dbeff98bbc3ba0872",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Tonica C..B",
+          "range": "C..B (12 toniche)",
+          "curve": "12 settori, isteresi 5 ADC",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P2",
+          "function": "Escursione fino a tre ottave",
+          "range": "2 gradi..3 ottave, dipende dalla scala",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P3",
+          "function": "Evoluzione; CCW blocco",
+          "range": "0 = lock; 1..4 tentativi di evoluzione per frase",
+          "curve": "Lineare",
+          "acquisition": "Al confine della frase"
+        }
+      ],
+      "cv": "Clock esterno; una salita = uno step, niente clock autonomo.",
+      "manual": "Breve: accoda tema; 650 ms: prossima scala. Applicazione al confine di frase.",
+      "out1": "Pitch positivo nominale 1 V/oct",
+      "out2": "Accento 0/+5 V",
+      "io": "Gate ritardato 1 ms, 60% periodo, max 250 ms",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "Slot; per 1 s dopo MANUAL lungo: scala one-hot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "fast": true,
+      "codeKey": "ar_orbit",
+      "entry": "orbitStart();",
+      "tick": "modeOrbit(nowMs,cvRising);",
+      "algorithmSha256": "4db9acc521bfe76eb4e57f12be752a11667455adfb4a23e76411d30e5f8904eb",
+      "version": "1.0"
+    },
+    {
+      "id": "ar_presets8",
+      "name": "Preset Manager a 8 step",
+      "family": "Utility",
+      "description": "Otto preset persistenti di due tensioni bipolari e un gate. EDIT con pickup; EEPROM compatibile con ALLROUNDER 2.2.4. Funzione separata da ACPM.",
+      "source": "firmwares/ALTERIA_ALLROUNDER_2_2_4/ALTERIA_ALLROUNDER_2_2_4.ino",
+      "sourceSha256": "75e870097aa38b71ab891140f9707860c79d7b068ea448e196454e6c6d5472e3",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "CV A con pickup ±8 ADC",
+          "range": "-5..+5 V nominali",
+          "curve": "Lineare, pickup ±8 ADC",
+          "acquisition": "Solo EDIT e dopo pickup"
+        },
+        {
+          "pot": "P2",
+          "function": "CV B con pickup ±8 ADC",
+          "range": "-5..+5 V nominali",
+          "curve": "Lineare, pickup ±8 ADC",
+          "acquisition": "Solo EDIT e dopo pickup"
+        },
+        {
+          "pot": "P3",
+          "function": "Gate, soglie 420/604 ADC",
+          "range": "LOW <420 ADC, HIGH >604 ADC, centro mantiene",
+          "curve": "Isteresi",
+          "acquisition": "Solo EDIT e dopo pickup"
+        }
+      ],
+      "cv": "Prossimo preset solo in PLAY.",
+      "manual": "Prossimo degli otto preset anche in EDIT.",
+      "out1": "CV A salvata",
+      "out2": "CV B salvata",
+      "io": "Gate salvato",
+      "ioDirection": "output",
+      "range": "-5..+5 V nominali",
+      "dependencies": [
+        "preset-v2"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1–3 mostrano l’indice 0–7. LED4 acceso in PLAY, lampeggiante in EDIT; tutti lampeggiano su errore.",
+      "reset": "Torna in PLAY; mantiene valori e preset selezionato in RAM. Uscendo da EDIT avvia il salvataggio, code precedenti svuotate.",
+      "notes": [
+        "MODE 650 ms alterna EDIT/PLAY. Uscita da EDIT o dalla modalità salva. EEPROM 0..105, migra in lettura 128..189, nessuna scrittura al boot."
+      ],
+      "fast": true,
+      "codeKey": "ar_presets8",
+      "entry": "presetEditing=false;outputPreset();resetPickup();",
+      "tick": "if(manualBtn.rising||(!presetEditing&&cvRising)){selectedPreset=(selectedPreset+1)&7;resetPickup();}servicePresetMode();outputPreset();",
+      "algorithmSha256": "317fd9996555cd5a725dcce04f75bb49318b7f0d853c1de79a68d0886c0359da",
+      "version": "1.0"
+    },
+    {
+      "id": "rh_and",
+      "name": "Logic AND",
+      "family": "Rhythm",
+      "description": "Due clock interni con duty comune e uscita di coincidenza AND.",
+      "source": "firmwares/ALTERIA_RHYTHM_ENGINE_328P/ALTERIA_RHYTHM_ENGINE_328P.ino",
+      "sourceSha256": "636fe2055b68b53e3e669d0f2e9a9ae3fdd70bb8cf922855b158b443d2568634",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Rate A",
+          "range": "Periodo 10..2000 ms",
+          "curve": "Quadratica",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P2",
+          "function": "Rate B",
+          "range": "Periodo 10..2000 ms",
+          "curve": "Quadratica",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P3",
+          "function": "Duty comune",
+          "range": "Duty 5..95%",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        }
+      ],
+      "cv": "Risincronizza",
+      "manual": "Come CV",
+      "out1": "Clock A",
+      "out2": "Clock B",
+      "io": "A AND B",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [
+        "scheduler"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [
+        "Port REV5-2, acquisizione gate ADC con isteresi; debounce MANUAL."
+      ],
+      "codeKey": "rh_and",
+      "entry": "",
+      "tick": "modeLogicAND(nowMs);",
+      "algorithmSha256": "3bd4e66a35cc0fb7b06b28f2fb38565c83cf77d00dd67ad449552b524fa17698",
+      "version": "1.0"
+    },
+    {
+      "id": "rh_bouncing",
+      "name": "Bouncing Ball",
+      "family": "Rhythm",
+      "description": "Rimbalzi progressivamente più distanti e ampiezza decadente.",
+      "source": "firmwares/ALTERIA_RHYTHM_ENGINE_328P/ALTERIA_RHYTHM_ENGINE_328P.ino",
+      "sourceSha256": "636fe2055b68b53e3e669d0f2e9a9ae3fdd70bb8cf922855b158b443d2568634",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Intervallo/gravita",
+          "range": "Intervallo iniziale 12..260 ms; fattore gravità 1100..1600/1024",
+          "curve": "Quadratica",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P2",
+          "function": "Numero rimbalzi",
+          "range": "2..18 rimbalzi",
+          "curve": "Lineare",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P3",
+          "function": "Elasticita/damping",
+          "range": "Elasticità 1200..3850/4096",
+          "curve": "Lineare",
+          "acquisition": "A ogni rimbalzo"
+        }
+      ],
+      "cv": "Avvia sequenza",
+      "manual": "Come CV",
+      "out1": "Ampiezza decadente",
+      "out2": "Inversa",
+      "io": "Trigger rimbalzo",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [
+        "scheduler"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [
+        "Port REV5-2, acquisizione gate ADC con isteresi; debounce MANUAL."
+      ],
+      "codeKey": "rh_bouncing",
+      "entry": "",
+      "tick": "modeBouncingBall(nowMs);",
+      "algorithmSha256": "b1cf680bf003707f636552f50395f2390bd8bbe6c39b15932d813faf331b332d",
+      "version": "1.0"
+    },
+    {
+      "id": "rh_divmult",
+      "name": "Clock Div/Mult · esterno",
+      "family": "Rhythm",
+      "description": "Divider/moltiplicatore duale da clock esterno; distinto dal Triple Clock con tap.",
+      "source": "firmwares/ALTERIA_RHYTHM_ENGINE_328P/ALTERIA_RHYTHM_ENGINE_328P.ino",
+      "sourceSha256": "636fe2055b68b53e3e669d0f2e9a9ae3fdd70bb8cf922855b158b443d2568634",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Rapporto A",
+          "range": "/8 /6 /4 /3 /2 x1 x2 x3 x4 x6 x8",
+          "curve": "map intero, x8 solo al massimo",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P2",
+          "function": "Rapporto B",
+          "range": "Stessi 11 rapporti A",
+          "curve": "map intero, x8 solo al massimo",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P3",
+          "function": "Pulse width",
+          "range": "2 ms..min(periodo-1,80 ms)",
+          "curve": "Lineare",
+          "acquisition": "Al fronte di trigger/clock"
+        }
+      ],
+      "cv": "Clock riferimento",
+      "manual": "Come CV",
+      "out1": "Clock derivato A",
+      "out2": "Clock derivato B",
+      "io": "Clock x1",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [
+        "scheduler"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [
+        "Port REV5-2, acquisizione gate ADC con isteresi; debounce MANUAL."
+      ],
+      "codeKey": "rh_divmult",
+      "entry": "",
+      "tick": "modeClockDivMult(nowMs);",
+      "algorithmSha256": "425d4c23dc24a58851fa855c052e49005b98a8bd644e3b993053c74a67db5958",
+      "version": "1.0"
+    },
+    {
+      "id": "rh_rcd",
+      "name": "RCD Rotation",
+      "family": "Rhythm",
+      "description": "Tre divisori di clock ruotabili con scelta di set semplice o complesso.",
+      "source": "firmwares/ALTERIA_RHYTHM_ENGINE_328P/ALTERIA_RHYTHM_ENGINE_328P.ino",
+      "sourceSha256": "636fe2055b68b53e3e669d0f2e9a9ae3fdd70bb8cf922855b158b443d2568634",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Set semplice/completo",
+          "range": "ADC <=512 semplice, >512 complesso",
+          "curve": "Selettore discreto",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P2",
+          "function": "Rotazione",
+          "range": "Rotazione 0..len-1",
+          "curve": "Lineare",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P3",
+          "function": "Spread assegnazioni",
+          "range": "Spread 1..len-1",
+          "curve": "Lineare",
+          "acquisition": "Al fronte di trigger/clock"
+        }
+      ],
+      "cv": "Clock master",
+      "manual": "Come CV",
+      "out1": "Divisione A",
+      "out2": "Divisione B",
+      "io": "Divisione C",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [
+        "scheduler"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [
+        "Port REV5-2, acquisizione gate ADC con isteresi; debounce MANUAL."
+      ],
+      "codeKey": "rh_rcd",
+      "entry": "",
+      "tick": "modeRCDRotation(nowMs);",
+      "algorithmSha256": "19fff47e8f6ce687576ce2800f22d42fcfff5272eb183114a2db0f7e1b58412f",
+      "version": "1.0"
+    },
+    {
+      "id": "rh_delay",
+      "name": "Delay Trigger",
+      "family": "Rhythm",
+      "description": "Due copie ritardate di ogni evento, con riferimento immediato su I/O.",
+      "source": "firmwares/ALTERIA_RHYTHM_ENGINE_328P/ALTERIA_RHYTHM_ENGINE_328P.ino",
+      "sourceSha256": "636fe2055b68b53e3e669d0f2e9a9ae3fdd70bb8cf922855b158b443d2568634",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Delay A",
+          "range": "0..1800 ms",
+          "curve": "Quadratica",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P2",
+          "function": "Delay B",
+          "range": "0..1800 ms",
+          "curve": "Quadratica",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P3",
+          "function": "Pulse width",
+          "range": "2 ms..min(periodo-1,300 ms)",
+          "curve": "Lineare",
+          "acquisition": "Al fronte di trigger/clock"
+        }
+      ],
+      "cv": "Trigger",
+      "manual": "Come CV",
+      "out1": "Trigger ritardato A",
+      "out2": "Trigger ritardato B",
+      "io": "Riferimento",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [
+        "scheduler"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [
+        "Port REV5-2, acquisizione gate ADC con isteresi; debounce MANUAL."
+      ],
+      "codeKey": "rh_delay",
+      "entry": "",
+      "tick": "modeDelayTrig(nowMs);",
+      "algorithmSha256": "4064327d3eb754bf1fd778cb23425d6991fa624dcdaa03a5c009120df25001e4",
+      "version": "1.0"
+    },
+    {
+      "id": "rh_sculptor",
+      "name": "Gate Length Sculptor",
+      "family": "Rhythm",
+      "description": "Gate correlati al periodo con pattern di accento, rotazione e variazione di durata.",
+      "source": "firmwares/ALTERIA_RHYTHM_ENGINE_328P/ALTERIA_RHYTHM_ENGINE_328P.ino",
+      "sourceSha256": "636fe2055b68b53e3e669d0f2e9a9ae3fdd70bb8cf922855b158b443d2568634",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Lunghezza base",
+          "range": "Durata 2 ms..min(periodo-1,900 ms)",
+          "curve": "Lineare",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P2",
+          "function": "Lunghezza/accento secondario",
+          "range": "Pattern 0..3, rotazione 0..15; livello debole 900..3000 Q12",
+          "curve": "Selettore discreto",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P3",
+          "function": "Variazione width",
+          "range": "Variazione 0..65%",
+          "curve": "Lineare",
+          "acquisition": "Al fronte di trigger/clock"
+        }
+      ],
+      "cv": "Clock",
+      "manual": "Come CV",
+      "out1": "Gate scolpito",
+      "out2": "Gate correlato/accento",
+      "io": "Riferimento",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [
+        "scheduler"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [
+        "Port REV5-2, acquisizione gate ADC con isteresi; debounce MANUAL."
+      ],
+      "codeKey": "rh_sculptor",
+      "entry": "",
+      "tick": "modeGateLengthSculptor(nowMs);",
+      "algorithmSha256": "80e1b9e353f285ebc0fdf8bcf874ef07444f73268d0f68e2a35a44d4df5c0b3e",
+      "version": "1.0"
+    },
+    {
+      "id": "rh_euclidean_trigs",
+      "name": "Euclidean Trigs",
+      "family": "Rhythm",
+      "description": "Tre sequencer di trigger euclidei indipendenti da 16 step. Ogni pot controlla il numero di hit della propria uscita.",
+      "source": "firmwares/ALTERIA_RHYTHM_ENGINE_328P/ALTERIA_RHYTHM_ENGINE_328P.ino",
+      "sourceSha256": "636fe2055b68b53e3e669d0f2e9a9ae3fdd70bb8cf922855b158b443d2568634",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Densità OUT1",
+          "range": "0–16 hit su 16 step",
+          "curve": "17 settori ADC",
+          "acquisition": "A ogni fronte CV IN"
+        },
+        {
+          "pot": "P2",
+          "function": "Densità OUT2",
+          "range": "0–16 hit su 16 step",
+          "curve": "17 settori ADC",
+          "acquisition": "A ogni fronte CV IN"
+        },
+        {
+          "pot": "P3",
+          "function": "Densità I/O",
+          "range": "0–16 hit su 16 step",
+          "curve": "17 settori ADC",
+          "acquisition": "A ogni fronte CV IN"
+        }
+      ],
+      "cv": "Solo il fronte crescente del clock esterno avanza tutte e tre le sequenze. Nessun clock interno.",
+      "manual": "Ferma gli impulsi attivi e riporta tutti allo step 1. Lo step 1 suona al prossimo fronte CV IN; se coincidono, prevale il reset.",
+      "out1": "Trigger della corsia P1 tramite DAC A",
+      "out2": "Trigger della corsia P2 tramite DAC B",
+      "io": "Trigger della corsia P3 su D2",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [
+        "scheduler"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Ricomincia dallo step 1 senza emettere impulsi; MANUAL ripete questo reset.",
+      "notes": [
+        "Ogni sequenza distribuisce 0–16 hit su 16 step, con rotazione fissa a zero. Stessa densità = stesso pattern.",
+        "Impulsi di un quarto del periodo, limitati a 2–12 ms. Il primo fronte dopo reset usa 12 ms."
+      ],
+      "codeKey": "rh_euclidean_trigs",
+      "entry": "",
+      "tick": "modeEuclideanTrigs(nowMs);",
+      "algorithmSha256": "ba1a0ecffe4befd2ede0f008136b4ff45abf9ed7fe21efe1e6698908d9bebff8",
+      "fast": true,
+      "version": "1.0",
+      "sourceNote": "Derivata da Euclidean Morph; modalità rivista per tre densità indipendenti e reset comune."
+    },
+    {
+      "id": "rh_swarm",
+      "name": "Swarm Trigger",
+      "family": "Rhythm",
+      "description": "Tre agenti autonomi generano trigger con spread, wobble e probabilità di salto.",
+      "source": "firmwares/ALTERIA_RHYTHM_ENGINE_328P/ALTERIA_RHYTHM_ENGINE_328P.ino",
+      "sourceSha256": "636fe2055b68b53e3e669d0f2e9a9ae3fdd70bb8cf922855b158b443d2568634",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Speed/density",
+          "range": "Incremento 8..1800",
+          "curve": "Quadratica",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P2",
+          "function": "Spread tre agenti",
+          "range": "Spread incremento 0..1200",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P3",
+          "function": "Chaos/wobble",
+          "range": "Chaos 0..900, drop 0..45%, pulse 3..14 ms",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        }
+      ],
+      "cv": "Randomizza le tre fasi e genera pulse I/O",
+      "manual": "Come CV",
+      "out1": "Trigger agente A",
+      "out2": "Trigger agente B",
+      "io": "Trigger agente C",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [
+        "scheduler"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [
+        "Port REV5-2, acquisizione gate ADC con isteresi; debounce MANUAL."
+      ],
+      "codeKey": "rh_swarm",
+      "entry": "",
+      "tick": "modeSwarmTrigger(nowMs);",
+      "algorithmSha256": "64908077a698ce53d6abf876ea3943636fecb72c4cecd56d67c0c982558b1068",
+      "version": "1.0"
+    },
+    {
+      "id": "rh_geiger",
+      "name": "Geiger · Rhythm",
+      "family": "Rhythm",
+      "description": "CV di attività e spike pseudocasuali; A7 non è un sensore di radiazioni.",
+      "source": "firmwares/ALTERIA_RHYTHM_ENGINE_328P/ALTERIA_RHYTHM_ENGINE_328P.ino",
+      "sourceSha256": "636fe2055b68b53e3e669d0f2e9a9ae3fdd70bb8cf922855b158b443d2568634",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Density",
+          "range": "Densità 1..22",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P2",
+          "function": "Persistence",
+          "range": "Persistenza 1..60",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P3",
+          "function": "Sensibilita/chaos",
+          "range": "Soglie differenza 22..3, deviazione 26..4, boost 8..32",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        }
+      ],
+      "cv": "Ricarica attivita",
+      "manual": "Come CV",
+      "out1": "Energia A",
+      "out2": "Energia B",
+      "io": "Spike trigger",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [
+        "scheduler"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [
+        "Port REV5-2: DAC calibrato e LDAC D12; D3/D5 sono LED. A7 è solo rumore ADC, nessun sensore di radiazione."
+      ],
+      "codeKey": "rh_geiger",
+      "entry": "",
+      "tick": "modeGeiger(nowMs);",
+      "algorithmSha256": "3ad34f7565f6301beec9e975f32d196d3ea6f0b5695bfe0f672a4951041623d3",
+      "version": "1.0"
+    },
+    {
+      "id": "rh_triple_xor",
+      "name": "Triple XOR LFO",
+      "family": "Rhythm",
+      "description": "Tre LFO quadri confrontati a coppie in XOR, con rephase comune.",
+      "source": "firmwares/ALTERIA_RHYTHM_ENGINE_328P/ALTERIA_RHYTHM_ENGINE_328P.ino",
+      "sourceSha256": "636fe2055b68b53e3e669d0f2e9a9ae3fdd70bb8cf922855b158b443d2568634",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Rate LFO1",
+          "range": "Semiperiodo 4000..5 ms",
+          "curve": "Quadratica inversa",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P2",
+          "function": "Rate LFO2",
+          "range": "Semiperiodo 4000..5 ms",
+          "curve": "Quadratica inversa",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P3",
+          "function": "Rate LFO3",
+          "range": "Semiperiodo 4000..5 ms",
+          "curve": "Quadratica inversa",
+          "acquisition": "Live, ogni 12 ms"
+        }
+      ],
+      "cv": "Risincronizza",
+      "manual": "Come CV",
+      "out1": "LFO1 XOR LFO2",
+      "out2": "LFO2 XOR LFO3",
+      "io": "LFO3 XOR LFO1",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [
+        "scheduler"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [
+        "Port REV5-2, acquisizione gate ADC con isteresi; debounce MANUAL."
+      ],
+      "codeKey": "rh_triple_xor",
+      "entry": "",
+      "tick": "modeTripleXorLfo(nowMs);",
+      "algorithmSha256": "96e207f88b939eefa9f2801143bf18208892b4acb3362a81a72ff745d7357491",
+      "version": "1.0"
+    },
+    {
+      "id": "mo_ad_envelope",
+      "name": "Ad Envelope · Motion",
+      "family": "Motion",
+      "description": "AD da zero con curva continua e uscita inversa, diverso da AD Shaper.",
+      "source": "firmwares/ALTERIA_MOTION_ENGINE_POT3/ALTERIA_MOTION_ENGINE_POT3.ino",
+      "sourceSha256": "b4e5c86d194bd37ebfe4261454e98771f15ec1222d0bd32bcbebfa753114759a",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Attack log 5..4000 ms",
+          "range": "Attack 5..4000 ms",
+          "curve": "Logaritmica",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P2",
+          "function": "Decay log 5..4000 ms",
+          "range": "Decay 5..4000 ms",
+          "curve": "Logaritmica",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P3",
+          "function": "Curva continua",
+          "range": "LOG..LIN..EXP, esponente 1..5",
+          "curve": "Continua, centro piatto 0,48..0,52",
+          "acquisition": "Live, ogni 12 ms"
+        }
+      ],
+      "cv": "Trigger da zero",
+      "manual": "Come CV",
+      "out1": "Envelope",
+      "out2": "Inversa",
+      "io": "EOC pulse",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [
+        "motion-math"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "codeKey": "mo_ad_envelope",
+      "entry": "enteredMode=MODE_AD_ENVELOPE;",
+      "tick": "handleModeADEnvelope(nowMs);",
+      "algorithmSha256": "732b176d85ff4a02da1b86e56815eb08efe8af5e31ec0d2e62ec1bffd6b7ac1d",
+      "version": "1.0"
+    },
+    {
+      "id": "mo_slew_function",
+      "name": "Slew / Function · Motion",
+      "family": "Motion",
+      "description": "Generatore di funzione dal livello gate, con velocità separate e curva di uscita.",
+      "source": "firmwares/ALTERIA_MOTION_ENGINE_POT3/ALTERIA_MOTION_ENGINE_POT3.ino",
+      "sourceSha256": "b4e5c86d194bd37ebfe4261454e98771f15ec1222d0bd32bcbebfa753114759a",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Velocita salita 1..350",
+          "range": "Velocità 1..350 livelli Q12 / ms",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P2",
+          "function": "Velocita discesa 1..350",
+          "range": "Velocità 1..350 livelli Q12 / ms",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P3",
+          "function": "Curva uscita",
+          "range": "LOG..LIN..EXP",
+          "curve": "Continua",
+          "acquisition": "Live, ogni 12 ms"
+        }
+      ],
+      "cv": "Gate target",
+      "manual": "Gate OR con CV",
+      "out1": "Livello slewed",
+      "out2": "Inverso",
+      "io": "Copia gate",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [
+        "motion-math"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "codeKey": "mo_slew_function",
+      "entry": "enteredMode=MODE_SLEW_FUNCTION;",
+      "tick": "handleModeSlewFunction();",
+      "algorithmSha256": "589e838ba559b7f86f3c994486d7c7914ecb3e119a7f5d647745dd8a2e017a90",
+      "version": "1.0"
+    },
+    {
+      "id": "mo_pendulum",
+      "name": "Pendulum · Motion",
+      "family": "Motion",
+      "description": "Oscillatore smorzato: posizione, velocità e impulso al passaggio centrale.",
+      "source": "firmwares/ALTERIA_MOTION_ENGINE_POT3/ALTERIA_MOTION_ENGINE_POT3.ino",
+      "sourceSha256": "b4e5c86d194bd37ebfe4261454e98771f15ec1222d0bd32bcbebfa753114759a",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Frequenza 0.05..10 Hz",
+          "range": "0,05..10 Hz",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P2",
+          "function": "Damping 0.03..1.8",
+          "range": "Damping 0,03..1,8",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P3",
+          "function": "Fold/tensione",
+          "range": "Drive 1..4 con fold",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        }
+      ],
+      "cv": "Riavvia/eccita",
+      "manual": "Come CV",
+      "out1": "Posizione",
+      "out2": "Velocita",
+      "io": "Centro crossing",
+      "ioDirection": "output",
+      "range": "-5..+5 V nominali",
+      "dependencies": [
+        "motion-math"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "codeKey": "mo_pendulum",
+      "entry": "enteredMode=MODE_PENDULUM;",
+      "tick": "handleModePendulum();",
+      "algorithmSha256": "39936c659f638095fc106ea55e68ce6674f25ed7cef06b192215d4d43c557948",
+      "version": "1.0"
+    },
+    {
+      "id": "mo_radioactive_geiger",
+      "name": "Radioactive Geiger · Motion",
+      "family": "Motion",
+      "description": "Carica e collassi pseudocasuali con CV correlata, diverso dal Geiger ritmico.",
+      "source": "firmwares/ALTERIA_MOTION_ENGINE_POT3/ALTERIA_MOTION_ENGINE_POT3.ino",
+      "sourceSha256": "b4e5c86d194bd37ebfe4261454e98771f15ec1222d0bd32bcbebfa753114759a",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Rate 0.1..80 Hz, modulato",
+          "range": "Base 0,1..80 Hz, moltiplicata da P3 per 0,35..2,4",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P2",
+          "function": "Recupero carica 0.05..4",
+          "range": "Recupero 0,05..4 / s",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P3",
+          "function": "Instabilita/collapse",
+          "range": "Instabilità 0..1; curva carica e soglia collapse",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        }
+      ],
+      "cv": "Ricarica",
+      "manual": "Come CV",
+      "out1": "Carica sagomata",
+      "out2": "S&H correlato",
+      "io": "Evento",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [
+        "motion-math"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "codeKey": "mo_radioactive_geiger",
+      "entry": "enteredMode=MODE_RADIOACTIVE_GEIGER;",
+      "tick": "handleModeRadioactiveGeiger(nowMs);",
+      "algorithmSha256": "abeea05ca534efeeb3b61ffdd9f5e089fb94bf8d4ce10f244e04c9637fb0babb",
+      "version": "1.0"
+    },
+    {
+      "id": "mo_swarm",
+      "name": "Swarm · Motion",
+      "family": "Motion",
+      "description": "LFO leader e follower elastico con gate di prossimità.",
+      "source": "firmwares/ALTERIA_MOTION_ENGINE_POT3/ALTERIA_MOTION_ENGINE_POT3.ino",
+      "sourceSha256": "b4e5c86d194bd37ebfe4261454e98771f15ec1222d0bd32bcbebfa753114759a",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Leader 0.03..12 Hz",
+          "range": "Leader 0,03..12 Hz",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P2",
+          "function": "Risposta follower",
+          "range": "Risposta 0,2..12 × fattore P3 0,35..2,2",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P3",
+          "function": "Flock lock/proximity",
+          "range": "Spread 1,3..4,1; soglia prossimità 0,025..0,18",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        }
+      ],
+      "cv": "Reinizializza",
+      "manual": "Come CV",
+      "out1": "Leader",
+      "out2": "Follower",
+      "io": "Proximity gate",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [
+        "motion-math"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "codeKey": "mo_swarm",
+      "entry": "enteredMode=MODE_SWARM;",
+      "tick": "handleModeSwarm();",
+      "algorithmSha256": "70f72c76dd516b5b77c53df2fcc0f4b48c9b0700163820ad3c53e4329a8569a2",
+      "version": "1.0"
+    },
+    {
+      "id": "mo_neural_ghost",
+      "name": "Neural Ghost · Motion",
+      "family": "Motion",
+      "description": "Membrana con memoria, eccitazione interna e spike alla soglia.",
+      "source": "firmwares/ALTERIA_MOTION_ENGINE_POT3/ALTERIA_MOTION_ENGINE_POT3.ino",
+      "sourceSha256": "b4e5c86d194bd37ebfe4261454e98771f15ec1222d0bd32bcbebfa753114759a",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Memoria/leak",
+          "range": "Leak 3,5..0,12 / s",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P2",
+          "function": "Soglia",
+          "range": "Soglia 0,12..0,95",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P3",
+          "function": "Ghost/noise excitation",
+          "range": "Iniezione 0,18..0,70; refrattario 60..12 ms e rumore",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        }
+      ],
+      "cv": "Iniezione",
+      "manual": "Come CV",
+      "out1": "Membrana",
+      "out2": "Soglia",
+      "io": "Spike",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [
+        "motion-math"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "codeKey": "mo_neural_ghost",
+      "entry": "enteredMode=MODE_NEURAL_GHOST;",
+      "tick": "handleModeNeuralGhost(nowMs);",
+      "algorithmSha256": "73635018b0e283dcbdb2323bef51d9f0503e63385af3d7607916e0ce4b742dd9",
+      "version": "1.0"
+    },
+    {
+      "id": "mo_phase_forge",
+      "name": "Phase Forge · Motion",
+      "family": "Motion",
+      "description": "Due LFO di forma asimmetrica, offset, curvature e fold.",
+      "source": "firmwares/ALTERIA_MOTION_ENGINE_POT3/ALTERIA_MOTION_ENGINE_POT3.ino",
+      "sourceSha256": "b4e5c86d194bd37ebfe4261454e98771f15ec1222d0bd32bcbebfa753114759a",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Rate 0.03..20 Hz",
+          "range": "0,03..20 Hz",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P2",
+          "function": "Offset/asimmetria",
+          "range": "Warp A 0,15..0,85; offset 0..0,95 cicli",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P3",
+          "function": "Curvature/fold",
+          "range": "Curva continua e fold drive 1..4",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        }
+      ],
+      "cv": "Azzera fase",
+      "manual": "Come CV",
+      "out1": "LFO A",
+      "out2": "LFO B",
+      "io": "Crossing marker",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [
+        "motion-math"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "codeKey": "mo_phase_forge",
+      "entry": "enteredMode=MODE_PHASE_FORGE;",
+      "tick": "handleModePhaseForge();",
+      "algorithmSha256": "31c3caece9afbc33c4526b21c7d12c97a1666599fd049a28ba657da27c690e16",
+      "version": "1.0"
+    },
+    {
+      "id": "mo_vector_drift",
+      "name": "Vector Drift · Motion",
+      "family": "Motion",
+      "description": "Movimento XY caotico con attrazione al centro e gate sui confini.",
+      "source": "firmwares/ALTERIA_MOTION_ENGINE_POT3/ALTERIA_MOTION_ENGINE_POT3.ino",
+      "sourceSha256": "b4e5c86d194bd37ebfe4261454e98771f15ec1222d0bd32bcbebfa753114759a",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Speed 0.2..8",
+          "range": "Speed 0,2..8",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P2",
+          "function": "Chaos 0..1.2",
+          "range": "Chaos 0..1,2",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P3",
+          "function": "Gravita verso centro",
+          "range": "Gravità 0,02..0,85; drag 0,05..0,35",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        }
+      ],
+      "cv": "Randomizza XY",
+      "manual": "Come CV",
+      "out1": "X",
+      "out2": "Y",
+      "io": "Boundary/turn",
+      "ioDirection": "output",
+      "range": "-5..+5 V nominali",
+      "dependencies": [
+        "motion-math"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "codeKey": "mo_vector_drift",
+      "entry": "enteredMode=MODE_VECTOR_DRIFT;",
+      "tick": "handleModeVectorDrift();",
+      "algorithmSha256": "cfeb87dedb188a2238dd35320e28634c750fcd3ffea5d066c0aab763402cd1d1",
+      "version": "1.0"
+    },
+    {
+      "id": "mo_energy_field",
+      "name": "Energy Field · Motion",
+      "family": "Motion",
+      "description": "Particella con rumore, attrazione, drag e zona calda.",
+      "source": "firmwares/ALTERIA_MOTION_ENGINE_POT3/ALTERIA_MOTION_ENGINE_POT3.ino",
+      "sourceSha256": "b4e5c86d194bd37ebfe4261454e98771f15ec1222d0bd32bcbebfa753114759a",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Energia/noise",
+          "range": "Energia 0..1,5",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P2",
+          "function": "Attrazione",
+          "range": "Attrazione 0,2..5",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P3",
+          "function": "Hot radius/drag",
+          "range": "Drag 0,45..3,4; hot radius 0,035..0,16",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        }
+      ],
+      "cv": "Randomizza particella",
+      "manual": "Come CV",
+      "out1": "X",
+      "out2": "Y",
+      "io": "Hot zone gate",
+      "ioDirection": "output",
+      "range": "-5..+5 V nominali",
+      "dependencies": [
+        "motion-math"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "codeKey": "mo_energy_field",
+      "entry": "enteredMode=MODE_ENERGY_FIELD;",
+      "tick": "handleModeEnergyField();",
+      "algorithmSha256": "d930c00593d3bfa770cbad8ca0220e4368e108c725b3a072482aa82ff4213e45",
+      "version": "1.0"
+    },
+    {
+      "id": "mo_binary_bloom",
+      "name": "Binary Bloom · Motion",
+      "family": "Motion",
+      "description": "Popolazione binaria generativa con nascite, decadimento e mutazione.",
+      "source": "firmwares/ALTERIA_MOTION_ENGINE_POT3/ALTERIA_MOTION_ENGINE_POT3.ino",
+      "sourceSha256": "b4e5c86d194bd37ebfe4261454e98771f15ec1222d0bd32bcbebfa753114759a",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Birth bias",
+          "range": "Birth bias 0..255",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P2",
+          "function": "Decay bias",
+          "range": "Decay bias 0..255",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P3",
+          "function": "Tick/mutazione",
+          "range": "Tick 220..22 ms; mutazione 0..55",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        }
+      ],
+      "cv": "Nuovo pattern",
+      "manual": "Come CV",
+      "out1": "Popolazione bit",
+      "out2": "Byte basso a CV",
+      "io": "Bloom change",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [
+        "motion-math"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "codeKey": "mo_binary_bloom",
+      "entry": "enteredMode=MODE_BINARY_BLOOM;",
+      "tick": "handleModeBinaryBloom(nowMs);",
+      "algorithmSha256": "3dbf715f2f474bf15154de65aaeb1a446fe89f816e89ec483162ece15d246300",
+      "version": "1.0"
+    },
+    {
+      "id": "mo_chaos_map",
+      "name": "Chaos Map · Motion",
+      "family": "Motion",
+      "description": "Mappa logistica iterata: due CV correlate e gate di soglia.",
+      "source": "firmwares/ALTERIA_MOTION_ENGINE_POT3/ALTERIA_MOTION_ENGINE_POT3.ino",
+      "sourceSha256": "b4e5c86d194bd37ebfe4261454e98771f15ec1222d0bd32bcbebfa753114759a",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Logistic r 2.8..4",
+          "range": "Logistic r 2,8..4",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P2",
+          "function": "Tick 5..350 ms",
+          "range": "Tick 5..350 ms",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P3",
+          "function": "Soglia/curva",
+          "range": "Soglia 0,35..0,92 e curva continua",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        }
+      ],
+      "cv": "Nuovo x",
+      "manual": "Come CV",
+      "out1": "x sagomato",
+      "out2": "x precedente sagomato",
+      "io": "Threshold crossing",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [
+        "motion-math"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "codeKey": "mo_chaos_map",
+      "entry": "enteredMode=MODE_CHAOS_MAP;",
+      "tick": "handleModeChaosMap(nowMs);",
+      "algorithmSha256": "ee6bcaa559697d3278b2f4f0694b1dc6ab3fa22327c34551fe3114d554710f73",
+      "version": "1.0"
+    },
+    {
+      "id": "mo_sample_and_hold_morph",
+      "name": "Sample & Hold Morph · Motion",
+      "family": "Motion",
+      "description": "Campioni random con glide e griglia, clock esterno o fallback interno.",
+      "source": "firmwares/ALTERIA_MOTION_ENGINE_POT3/ALTERIA_MOTION_ENGINE_POT3.ino",
+      "sourceSha256": "b4e5c86d194bd37ebfe4261454e98771f15ec1222d0bd32bcbebfa753114759a",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Intervallo interno 30..1800 ms",
+          "range": "Intervallo 30..1800 ms",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P2",
+          "function": "Glide",
+          "range": "Glide: coefficiente 40..1, tau nominale 333..8,3 ms",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P3",
+          "function": "Griglia tensione",
+          "range": "Quantizzazione continua / 24 / 12 / 8 / 5 / 3 livelli",
+          "curve": "Selettore discreto",
+          "acquisition": "Live, ogni 12 ms"
+        }
+      ],
+      "cv": "Campiona immediatamente; il clock interno riparte dopo l’intervallo P1 dall’ultimo campione.",
+      "manual": "Come CV",
+      "out1": "Sample raw",
+      "out2": "Sample smoothed",
+      "io": "Sample pulse",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [
+        "motion-math"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "codeKey": "mo_sample_and_hold_morph",
+      "entry": "enteredMode=MODE_SAMPLE_HOLD_MORPH;",
+      "tick": "handleModeSampleHoldMorph(nowMs);",
+      "algorithmSha256": "db1136e112ea3481431712df770f5f6300daba30f0caf3cea0b559d243e92afa",
+      "version": "1.0"
+    },
+    {
+      "id": "mo_mirror_lfo",
+      "name": "Mirror Lfo · Motion",
+      "family": "Motion",
+      "description": "LFO con forma morph e uscita speculare, marker di ciclo.",
+      "source": "firmwares/ALTERIA_MOTION_ENGINE_POT3/ALTERIA_MOTION_ENGINE_POT3.ino",
+      "sourceSha256": "b4e5c86d194bd37ebfe4261454e98771f15ec1222d0bd32bcbebfa753114759a",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Rate 0.02..25 Hz",
+          "range": "0,02..25 Hz",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P2",
+          "function": "Morph waveform",
+          "range": "Morph sine → triangle → square",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P3",
+          "function": "Curva risposta",
+          "range": "LOG..LIN..EXP",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        }
+      ],
+      "cv": "Azzera fase",
+      "manual": "Come CV",
+      "out1": "Oscillazione",
+      "out2": "Inversa",
+      "io": "Cycle marker",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [
+        "motion-math"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "codeKey": "mo_mirror_lfo",
+      "entry": "enteredMode=MODE_MIRROR_LFO;",
+      "tick": "handleModeMirrorLFO();",
+      "algorithmSha256": "38f3bfec06b9b04a3d7d0648042c373a041ec17b462a9e0e5725aae85bfe5e6a",
+      "version": "1.0"
+    },
+    {
+      "id": "mo_harmonic_oscillator_stack",
+      "name": "Harmonic Oscillator Stack · Motion",
+      "family": "Motion",
+      "description": "Somma di armoniche CV con mix/spread, drive e fold.",
+      "source": "firmwares/ALTERIA_MOTION_ENGINE_POT3/ALTERIA_MOTION_ENGINE_POT3.ino",
+      "sourceSha256": "b4e5c86d194bd37ebfe4261454e98771f15ec1222d0bd32bcbebfa753114759a",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Fondamentale 0.03..15 Hz",
+          "range": "Fondamentale 0,03..15 Hz",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P2",
+          "function": "Mix/spread",
+          "range": "Mix e spread, ADC 0..1023",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P3",
+          "function": "Drive/fold",
+          "range": "Drive 1..4 e fold",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        }
+      ],
+      "cv": "Azzera fase",
+      "manual": "Come CV",
+      "out1": "Mix armonico",
+      "out2": "Armonica correlata",
+      "io": "Phase/cross marker",
+      "ioDirection": "output",
+      "range": "-5..+5 V nominali",
+      "dependencies": [
+        "motion-math"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "codeKey": "mo_harmonic_oscillator_stack",
+      "entry": "enteredMode=MODE_HARMONIC_STACK;",
+      "tick": "handleModeHarmonicStack();",
+      "algorithmSha256": "bf9c0e5edf9d4d93dad0363799a098b47970cdf95acfee937fd8ca34a344c2db",
+      "version": "1.0"
+    },
+    {
+      "id": "mo_random_walk_constrain",
+      "name": "Random Walk Constrain · Motion",
+      "family": "Motion",
+      "description": "Cammino casuale con vincolo centrale, velocità e impulso al confine.",
+      "source": "firmwares/ALTERIA_MOTION_ENGINE_POT3/ALTERIA_MOTION_ENGINE_POT3.ino",
+      "sourceSha256": "b4e5c86d194bd37ebfe4261454e98771f15ec1222d0bd32bcbebfa753114759a",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Tick 15..300 ms",
+          "range": "Tick 15..300 ms",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P2",
+          "function": "Vincolo al centro",
+          "range": "Vincolo 0..1,4",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P3",
+          "function": "Ampiezza passo/boundary",
+          "range": "Passo 0,035..0,28; bounce 0,35..1; gain velocità 2..6",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        }
+      ],
+      "cv": "Centra posizione/velocita",
+      "manual": "Come CV",
+      "out1": "Posizione",
+      "out2": "Velocita",
+      "io": "Boundary pulse",
+      "ioDirection": "output",
+      "range": "-5..+5 V nominali",
+      "dependencies": [
+        "motion-math"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "codeKey": "mo_random_walk_constrain",
+      "entry": "enteredMode=MODE_RANDOM_WALK_CONSTRAIN;",
+      "tick": "handleModeRandomWalkConstrain(nowMs);",
+      "algorithmSha256": "077d481c64342c6c50b7f34e27292af324544f986be7ad04f15fb0428458fbe1",
+      "version": "1.0"
+    },
+    {
+      "id": "mo_cv_cross_mod",
+      "name": "Cv Cross Mod · Motion",
+      "family": "Motion",
+      "description": "Due oscillatori che modulano reciprocamente frequenza e forma; marker near-sync.",
+      "source": "firmwares/ALTERIA_MOTION_ENGINE_POT3/ALTERIA_MOTION_ENGINE_POT3.ino",
+      "sourceSha256": "b4e5c86d194bd37ebfe4261454e98771f15ec1222d0bd32bcbebfa753114759a",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Base 0.05..18 Hz",
+          "range": "Base 0,05..18 Hz",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P2",
+          "function": "Depth 0..1.2",
+          "range": "Depth 0..1,2",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P3",
+          "function": "Shape/sync width",
+          "range": "Sine..fold triangle, near-sync 0,008..0,055 cicli",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        }
+      ],
+      "cv": "Rephase",
+      "manual": "Come CV",
+      "out1": "Oscillatore 1",
+      "out2": "Oscillatore 2",
+      "io": "Near-sync pulse",
+      "ioDirection": "output",
+      "range": "-5..+5 V nominali",
+      "dependencies": [
+        "motion-math"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "codeKey": "mo_cv_cross_mod",
+      "entry": "enteredMode=MODE_CV_CROSS_MOD;",
+      "tick": "handleModeCvCrossMod();",
+      "algorithmSha256": "1d2cc1665ad01c4d2dbedfa47e89f5099472e3d44045846aea02eb2c5d574fbc",
+      "version": "1.0"
+    },
+    {
+      "id": "cv_sh_glide",
+      "name": "S&H Glide",
+      "family": "Motion",
+      "description": "Un trigger sceglie una tensione casuale; seconda uscita con glide e quantizzazione.",
+      "source": "firmwares/ALTERIA_REV2_16MODES_POT3_OPTIMIZED.ino",
+      "sourceSha256": "b15af1dcc092b8cc17bacbeb87606057df35abcd74d62ac696235164f580352a",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Escursione random",
+          "range": "Range ±0..2047 Q12 attorno al centro",
+          "curve": "Lineare",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P2",
+          "function": "Glide",
+          "range": "Glide 0..450 ms",
+          "curve": "Lineare",
+          "acquisition": "Live, ogni 12 ms"
+        },
+        {
+          "pot": "P3",
+          "function": "Quantizzazione",
+          "range": "Continua con ADC <150; 24/12/8/5/3 livelli alle soglie 150/340/520/700/880",
+          "curve": "Selettore discreto",
+          "acquisition": "Al fronte di trigger/clock"
+        }
+      ],
+      "cv": "Fronte crescente: sceglie una nuova CV casuale.",
+      "manual": "Sceglie una nuova CV casuale come CV IN.",
+      "out1": "Sample stepped positivo",
+      "out2": "Sample slewed positivo",
+      "io": "Sample trigger",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [
+        "scheduler"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "All’ingresso OUT1 e OUT2 partono a metà scala; nessun trigger sintetico.",
+      "notes": [
+        "OUT1 salta al nuovo valore quantizzato; OUT2 raggiunge lo stesso valore con glide; I/O segnala il nuovo campione."
+      ],
+      "codeKey": "cv_sh_glide",
+      "entry": "out1(2048);out2(2048);latchDac();",
+      "tick": "modeSHGlide(nowMs);",
+      "algorithmSha256": "2ca1b721702a532cfe3a8131211545c8fcbcebdeb2eb198b602e317da157fbe3",
+      "version": "1.0"
+    },
+    {
+      "id": "cv_ad_eoc",
+      "name": "AD + EOC",
+      "family": "Motion",
+      "description": "AD da zero a tempi quadratici e tre curve, con CV inversa e impulso di fine ciclo.",
+      "source": "firmwares/ALTERIA_REV2_16MODES_POT3_OPTIMIZED.ino",
+      "sourceSha256": "b15af1dcc092b8cc17bacbeb87606057df35abcd74d62ac696235164f580352a",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Attack",
+          "range": "Attack 5..2500 ms",
+          "curve": "Quadratica",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P2",
+          "function": "Decay",
+          "range": "Decay 5..2500 ms",
+          "curve": "Quadratica",
+          "acquisition": "Al fronte di trigger/clock"
+        },
+        {
+          "pot": "P3",
+          "function": "Curva",
+          "range": "LOG / LIN / EXP",
+          "curve": "Tre regioni",
+          "acquisition": "Live, ogni 12 ms"
+        }
+      ],
+      "cv": "Fronte crescente: evento/reset.",
+      "manual": "Come CV IN; una pressione = un evento.",
+      "out1": "AD positivo",
+      "out2": "Inversa positiva",
+      "io": "EOC pulse 10 ms",
+      "ioDirection": "output",
+      "range": "0..+5 V nominali",
+      "dependencies": [
+        "scheduler"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [],
+      "codeKey": "cv_ad_eoc",
+      "entry": "",
+      "tick": "modeAD_EOC(nowMs);",
+      "algorithmSha256": "813abd702d88be6bda2b87ed2ecdba4e5f395c35d6561314823de5039e8186c8",
+      "version": "1.0"
+    },
+    {
+      "id": "au_acid_voice",
+      "name": "Acid Voice 2.1.0",
+      "family": "Audio",
+      "description": "Voce monofonica acid con AD, filtro SVF risonante e inviluppo CV separato.",
+      "source": "firmwares/ALTERIA_ALLROUNDER_2_1_0/ALTERIA_ALLROUNDER_2_1_0.ino",
+      "sourceSha256": "8ddf107946f6a1cc4ac3afaeb559f6f514e96a6905538352006b93c4884da9f2",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "Decay 20..2000 ms",
+          "range": "Decay 20..2000 ms",
+          "curve": "Quadratica",
+          "acquisition": "Live, campionamento dei pot ogni 12 ms"
+        },
+        {
+          "pot": "P2",
+          "function": "Risonanza SVF",
+          "range": "Damping SVF 469..55 / 256",
+          "curve": "Lineare",
+          "acquisition": "Live, campionamento dei pot ogni 12 ms"
+        },
+        {
+          "pot": "P3",
+          "function": "Apertura filtro con AD",
+          "range": "Env Mod 0..172 / 256",
+          "curve": "Lineare",
+          "acquisition": "Live, campionamento dei pot ogni 12 ms"
+        }
+      ],
+      "cv": "Pitch continuo nominale 1 V/oct, ADC 0..+5 V; non certificato.",
+      "manual": "Alterna saw/square; non eccita la voce.",
+      "out1": "Audio voce circa +/-2,5 V",
+      "out2": "Inviluppo AD 0..+5 V",
+      "io": "Ingresso gate/trigger",
+      "ioDirection": "input",
+      "range": "Audio circa +/-2,5 V; ENV 0..+5 V",
+      "dependencies": [
+        "timer1-audio",
+        "SPI-exclusive"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "LED1…4: pesi 1/2/4/8. Lo slot 16 ha codice 0000; in standalone si usa il codice del primo slot.",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [
+        "Trigger I/O avvia AD anche a gate tenuto; niente sustain. Motore 6,4 kHz.",
+        "Saw/square resta in RAM tra i cambi modalità, a boot riparte saw."
+      ],
+      "fast": true,
+      "audio": 1,
+      "composite": false,
+      "codeKey": "au_acid_voice",
+      "entry": "startModule();",
+      "tick": "moduleTick();",
+      "stop": "voiceStop",
+      "audioTick": "voiceAudioTick",
+      "algorithmSha256": "75c472fb04c4d7bca28871d35c0d465ff1d843387869236834a373db7fec2cdc",
+      "version": "1.0"
+    },
+    {
+      "id": "au_full_voice",
+      "name": "Full Voice · 4 pagine",
+      "family": "Audio",
+      "description": "Voce monofonica con quattro pagine di tre pot: OSC, FILTER, VCA, ENV.",
+      "source": "firmwares/ALTERIA_FULL_VOICE/ALTERIA_FULL_VOICE.ino",
+      "sourceSha256": "248a7a62e211e88f59981d5b991aafaff8f4942266af6ba4845ab83b3c8bfc63",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "OSC: forma; FILTER: cutoff; VCA: livello; ENV: Attack",
+          "range": "OSC 4 forme; FILTER circa 40 Hz..1,5 kHz; VCA 0..100%; ENV 2 ms..4 s",
+          "curve": "Selettore OSC; cutoff logaritmico; VCA lineare; tempi quadratici",
+          "acquisition": "Live con pickup; Attack acquisito al trigger"
+        },
+        {
+          "pot": "P2",
+          "function": "OSC: PWM; FILTER: risonanza; VCA: AD amount; ENV: Decay",
+          "range": "OSC PWM 10..90% solo pulse (inutilizzato sulle altre forme); FILTER risonanza; VCA AD amount 0..100%; ENV 2 ms..4 s",
+          "curve": "Lineare; Decay quadratico",
+          "acquisition": "Live con pickup; Decay acquisito al trigger"
+        },
+        {
+          "pot": "P3",
+          "function": "OSC: fine tune; FILTER: Env Mod; VCA: drive; ENV: curva",
+          "range": "OSC circa ±100 cent; FILTER AD amount 0..100%; VCA drive; ENV LOG/LIN/EXP continua",
+          "curve": "Lineare / curva continua",
+          "acquisition": "Live con pickup; curva ENV acquisita al trigger"
+        }
+      ],
+      "cv": "Pitch continuo nominale 1 V/oct, ADC 0..+5 V; non certificato.",
+      "manual": "Breve: pagina indietro; 500 ms nota di prova.",
+      "out1": "Audio voce circa +/-2,5 V",
+      "out2": "Inviluppo AD 0..+5 V",
+      "io": "Ingresso gate/trigger",
+      "ioDirection": "input",
+      "range": "Audio circa +/-2,5 V; ENV 0..+5 V",
+      "dependencies": [
+        "timer1-audio",
+        "SPI-exclusive",
+        "patch-320"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "800 ms codice slot globale; poi pagina one-hot (Full Voice) o motore/voce/pagina (Drum Lab).",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [
+        "MODE breve pagina successiva; MODE 1,2 s salva patch. Pickup a ogni pagina.",
+        "MODE+MANUAL tenuti 2 s: prossimo slot globale. I gesti interni sono mantenuti. LED globali per 800 ms all’ingresso, poi pagina/motore."
+      ],
+      "fast": true,
+      "audio": 2,
+      "composite": true,
+      "codeKey": "au_full_voice",
+      "entry": "startModule();",
+      "tick": "moduleTick();",
+      "stop": "voiceStop",
+      "audioTick": "voiceAudioTick",
+      "algorithmSha256": "3ad00a31b37e95b81006daa4289b62edf17c57e6876d819197089a4a7b82d8ba",
+      "version": "1.0"
+    },
+    {
+      "id": "au_drum_lab",
+      "name": "Drum Lab · 8 motori",
+      "family": "Audio",
+      "description": "Due voci audio, otto motori assegnabili per voce, pagine SOUND e FX con pickup.",
+      "source": "firmwares/ALTERIA_DRUM_LAB/ALTERIA_DRUM_LAB.ino",
+      "sourceSha256": "fd3f506c6b6d2cbcda7af0ccba06d537417051523a8e54d3c3fb6dfeeb932826",
+      "status": "integrato-software",
+      "hardware": "nano328p-rev5-2",
+      "controls": [
+        {
+          "pot": "P1",
+          "function": "SOUND: pitch/colore; FX: filtro",
+          "range": "Dipende dal motore; FX LP / bypass / HP",
+          "curve": "Macro specifica del motore",
+          "acquisition": "Live con pickup dopo cambio motore/voce/pagina"
+        },
+        {
+          "pot": "P2",
+          "function": "SOUND: decay; FX: drive",
+          "range": "Decay del motore; FX saturazione dry/wet 0..100%",
+          "curve": "Macro specifica del motore",
+          "acquisition": "Live con pickup"
+        },
+        {
+          "pot": "P3",
+          "function": "SOUND: carattere; FX: crush",
+          "range": "Carattere del motore; FX crush dry/wet 0..100%, 16 livelli / hold 8 campioni",
+          "curve": "Macro specifica del motore",
+          "acquisition": "Live con pickup"
+        }
+      ],
+      "cv": "Trigger voce A",
+      "manual": "Colpo sulla voce selezionata; 2 s salva kit.",
+      "out1": "Audio voce A circa +/-2,5 V",
+      "out2": "Audio voce B circa +/-2,5 V",
+      "io": "Ingresso trigger B",
+      "ioDirection": "input",
+      "range": "Audio circa +/-2,5 V",
+      "dependencies": [
+        "timer1-audio",
+        "SPI-exclusive",
+        "kit-512"
+      ],
+      "mode": "MODE breve al rilascio: prossimo slot; dopo l’ultimo ritorna al primo.",
+      "leds": "800 ms codice slot globale; poi pagina one-hot (Full Voice) o motore/voce/pagina (Drum Lab).",
+      "reset": "Stato re-inizializzato entrando; code/eventi del modo precedente cancellati, nessun trigger sintetico.",
+      "notes": [
+        "MODE breve prossimo motore; 650 ms voce A/B; MODE poi MANUAL: SOUND/FX. Pickup dei pot.",
+        "MODE+MANUAL tenuti 2 s: prossimo slot globale. I gesti interni sono mantenuti. LED globali per 800 ms all’ingresso, poi pagina/motore.",
+        "SOUND P1/P2: Kick 45..135 Hz / 60..1800 ms; Tom 70..500 Hz / 50..1400 ms; Synth Perc 100..1400 Hz / 20..1200 ms; Snare 185..255 Hz / 60..1000 ms; Clap spread 32..160 campioni / 70..700 ms; FM Metal e Open Hat 250..1750 Hz / 100..2200 ms; Closed Hat 250..1750 Hz / 15..300 ms. Decay quadratico. P3 carattere 0..255; sul Clap regola i battiti secondari."
+      ],
+      "fast": true,
+      "audio": 3,
+      "composite": true,
+      "codeKey": "au_drum_lab",
+      "entry": "startModule();",
+      "tick": "moduleTick();",
+      "stop": "stopAudio",
+      "audioTick": "audioTick",
+      "algorithmSha256": "b58ba73a7e0b51f2de31f21f89345d0d16372a5a2216c202c8952321e366d890",
+      "version": "1.0"
+    }
+  ]
+}

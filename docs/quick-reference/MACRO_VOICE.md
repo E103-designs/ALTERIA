@@ -13,7 +13,7 @@ suonano in continuo, Karplus solo al trigger. Entrambe le uscite sono audio.
 | Wavetable | 0001 | Banca: Classic, Hollow, Glass | Scan continuo OUT1 | Scan continuo OUT2 | Scansione A | Scansione B della stessa banca |
 | Karplus | 1111 | Dal corpo tonale al plettro rumoroso | Durata della risonanza | Posizione del pickup OUT2 | Corda pizzicata | Secondo pickup sulla stessa corda |
 
-[Manuale](../../firmware/ALTERIA_MACRO_VOICE/README.md) ·
-[Demo stereo WAV](../../firmware/ALTERIA_MACRO_VOICE/ALTERIA_MACRO_VOICE_1_0_0.wav) ·
-[Report dei test](../../firmware/ALTERIA_MACRO_VOICE/TEST_REPORT.md). Demo da DSP, non da hardware:
+[Manuale](../../MACRO-VOICE/Firmware/ALTERIA_MACRO_VOICE/README.md) ·
+[Demo stereo WAV](../../MACRO-VOICE/ALTERIA_MACRO_VOICE_1_0_0.wav) ·
+[Report dei test](../../MACRO-VOICE/Firmware/ALTERIA_MACRO_VOICE/TEST_REPORT.md). Demo da DSP, non da hardware:
 0 s Fold, 4 s FM, 8 s Chord, 12 s Wavetable, 16 s Karplus.

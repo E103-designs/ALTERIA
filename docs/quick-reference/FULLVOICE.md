@@ -53,6 +53,6 @@ Taratura con tester: LED1 zero, LED2 +5 V, LED3 -5 V; P1/P2 correggono OUT1/2,
 centrare prima di MANUAL per avanzare. LED4 lampeggiante: MANUAL 1 s salva;
 MODE 1.2 s annulla. I/O rimane ingresso. Suono lo-fi a 6.4 kHz.
 
-[Manuale completo](../../firmware/ALTERIA_FULL_VOICE/README.md) ·
-[Stato non testato](../../firmware/ALTERIA_FULL_VOICE/STATUS.md) ·
+[Manuale completo](../../FULL-VOICE/Firmware/ALTERIA_FULL_VOICE/README.md) ·
+[Stato non testato](../../FULL-VOICE/Firmware/ALTERIA_FULL_VOICE/STATUS.md) ·
 [Indice quick reference](README.md).

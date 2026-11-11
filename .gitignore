@@ -5,3 +5,8 @@ node_modules/
 *.elf
 *.hex
 *.o
+.cache/
+output/
+OLD/
+__pycache__/
+*.pyc

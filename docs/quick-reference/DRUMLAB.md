@@ -59,5 +59,5 @@ MODE 1.2 s annulla. I/O resta ingresso. Scollegarlo prima di cambiare firmware.
 
 Audio lo-fi 6.4 kHz; non replica LXR-02. Prove software non equivalgono a
 collaudo fisico del nuovo motore.
-[Manuale completo](../../firmware/ALTERIA_DRUM_LAB/README.md) ·
+[Manuale completo](../../DRUM-LAB/Firmware/ALTERIA_DRUM_LAB/README.md) ·
 [Indice quick reference](README.md).

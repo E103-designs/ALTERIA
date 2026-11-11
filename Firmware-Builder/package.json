@@ -1,0 +1,19 @@
+{
+  "name": "alteria-firmware-builder",
+  "version": "3.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node tools/sync-library.mjs --check && node tests/verify.mjs",
+    "catalog": "node tools/sync-library.mjs",
+    "verify:avr": "node tests/compile-all.mjs",
+    "verify:host": "node tools/test-host.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "avr8js": "0.21.1"
+  }
+}

@@ -1,6 +1,6 @@
 # ALTERIA output calibration
 
-Applies to **ALLROUNDER 2.0.2 / REV5-2 / Nano ATmega328P**. DRUM LAB 1.0.0 uses the same ACAL format and a matching boot procedure; consult its manual for the return to audio operation.
+Applies to **ALLROUNDER 2.3.0 / REV5-2 / Nano ATmega328P**. DRUM LAB 1.0.0 uses the same ACAL format and a matching boot procedure; consult its manual for the return to audio operation.
 
 This is **manual three-point output calibration**. The Nano does not independently measure its outputs. Use a DC multimeter between jack tip and sleeve/GND.
 
@@ -16,8 +16,8 @@ MODE short returns to the previous point. MODE held **1.2 seconds** cancels with
 
 The center dead band is ADC 442–582. Each adjustment changes one DAC code, about every 40–300 ms depending on distance from center, bounded to ±256 codes from the session's initial point and to 0–4095. P3 is unused. Input/I/O LEDs indicate knob acquisition, not electrical accuracy. If the target cannot be reached within the window, investigate the hardware rather than forcing coefficients.
 
-Calibration uses EEPROM **256–301** (ACAL 1), separate from Allrounder presets **128–189** and DRUM LAB kits **512–715 / 736–939**. Valid records are reused by both current firmware families. An older firmware, a chip erase or reused EEPROM addresses can invalidate this persistence. The old demo and HW_TEST do not automatically load ACAL.
+Calibration uses EEPROM **256–301** (ACAL 1), separate from Preset Manager records **0–105 / 128–189** and DRUM LAB kits **512–715 / 736–939**. Valid records are reused by the current sketches. An older firmware, a chip erase or reused EEPROM addresses can invalidate this persistence. The old demo and HW_TEST do not automatically load ACAL.
 
-Optional serial logging: **115200 baud**; opening the monitor may reset the Nano. Logged values are DAC codes, not measured volts. The [detailed Italian guide](../firmware/ALTERIA_ALLROUNDER/GUIDA_CALIBRAZIONE.md) documents errors, CRC/fallback and all gestures.
+Optional serial logging: **115200 baud**; opening the monitor may reset the Nano. Logged values are DAC codes, not measured volts. The [detailed Italian guide](../ALLROUNDER/Firmware/ALTERIA_ALLROUNDER/GUIDA_CALIBRAZIONE.md) documents errors, CRC/fallback and all gestures.
 
 Calibration corrects offset and positive/negative output scale. It does not remove noise, drift, nonlinearity or load-dependent drops and does not certify pitch accuracy. Keep I/O unpatched throughout: Allrounder returns it to output mode after exit.

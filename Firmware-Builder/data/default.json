@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "catalogVersion": "3.1.0",
+  "target": "nano328p-rev5-2",
+  "name": "ALTERIA · Il mio strumento",
+  "version": "1.0.0",
+  "modes": [
+    "ar_ad",
+    "ar_ar",
+    "ar_dual_decay",
+    "ar_ducking",
+    "ar_burst",
+    "ar_acid",
+    "ar_tremolo",
+    "ar_grids",
+    "ar_clock3",
+    "rh_euclidean_trigs",
+    "ar_xor",
+    "ar_turing",
+    "ar_humanizer",
+    "ar_bernoulli",
+    "ar_trance",
+    "cv_sh_glide"
+  ]
+}

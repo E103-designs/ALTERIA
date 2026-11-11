@@ -1,161 +1,25 @@
 # ALTERIA
 
-### One module. Sixteen ways to move a patch.
+Firmware open source per un modulo Eurorack da 4 HP: inviluppi, ritmo, modulazione, sintesi e preset CV. ALTERIA REV5-2 ha tre potenziometri, due pulsanti, quattro LED di modalità, CV IN, un jack digitale I/O e due uscite su DAC MCP4822.
 
-**Open-source firmware for a compact Eurorack function generator, rhythm utility and lo-fi percussion instrument.** Three knobs, two buttons and two calibrated DAC outputs, with separate **DRUM LAB** and experimental **FULL VOICE** and **MACRO VOICE** firmware.
+<p><img src="images/front.png" height="320" alt="Pannello ALTERIA con manopole, pulsanti e jack"><img src="images/angled-left.png" height="320" alt="Vista a tre quarti del modulo ALTERIA"></p>
 
-<p align="center"><img src="images/front.png" height="500" alt="ALTERIA front view"> <img src="images/angled-left.png" height="500" alt="ALTERIA product view"></p>
+## Scegli il firmware
 
-<details><summary>More product views</summary>
-<p align="center"><img src="images/side-left.png" height="360" alt="ALTERIA product view"> <img src="images/side-right.png" height="360" alt="ALTERIA product view"> <img src="images/angled-right.png" height="360" alt="ALTERIA product view"></p>
-</details>
-
-
-[Allrounder manual](docs/quick-reference/ALLROUNDER.md) · [Calibration](docs/CALIBRATION.md) · [DRUM LAB](firmware/ALTERIA_DRUM_LAB/README.md) · [Build and modify](docs/DEVELOPMENT.md) · [Schematics](hardware/schematics/README.md)
-
-**Quick reference:** [ALLROUNDER](docs/quick-reference/ALLROUNDER.md) · [DRUMLAB](docs/quick-reference/DRUMLAB.md) · [FULLVOICE - experimental](docs/quick-reference/FULLVOICE.md) · [MACRO VOICE - experimental](docs/quick-reference/MACRO_VOICE.md).
-
-## Choose your firmware
-
-| Firmware | Version | Purpose | Hardware |
-| --- | --- | --- | --- |
-| **[ALLROUNDER](firmware/ALTERIA_ALLROUNDER_2_2_1/README.md)** | **2.2.1**, 6 November 2026, **UNTESTED ON HARDWARE** | Sixteen CV/gate modes; ORBIT melody generator, Turing clock-through, eight presets | REV5-2, Nano ATmega328P, 16 MHz |
-| **ALLROUNDER** | **2.0.2**, 27 October 2026 | Sixteen modes covering envelopes, rhythm, modulation, pitch CV and two drum voices | REV5-2, Nano ATmega328P, 16 MHz |
-| **ALLROUNDER - experimental variant** | **2.1.0**, 31 October 2026, **UNTESTED ON HARDWARE** | Same 16-mode layout; mode 10 Acid Voice replaces Mutant Drums | Same hardware |
-| **DRUM LAB** | **1.0.0**, 27 October 2026 | Two independent percussion voices, each with eight selectable engines and three effects | Same hardware |
-| **FULL VOICE** | **1.0.0**, 31 October 2026, **UNTESTED ON HARDWARE** | Mono oscillator/filter/VCA voice, four editing pages, AD envelope, nominal V/oct + trigger input | Same hardware |
-| **[MACRO VOICE](firmware/ALTERIA_MACRO_VOICE/README.md)** | **1.0.0**, 6 November 2026, **UNTESTED ON HARDWARE** | Five oscillator models at 8 kHz, dual audio, nominal V/oct + sync/pluck input | Same hardware |
-
-These are separate sketches; upload one at a time. They do not require an external audio library. SPI and EEPROM come with the Arduino AVR core. **ATmega168P is not a supported replacement for these releases.**
-
-Download this repository with **Code → Download ZIP**, extract it, and open the matching `.ino` inside its own folder under `firmware/`. In Arduino IDE select **Arduino Nano → ATmega328P**; choose Old Bootloader only if required by your Nano. The [development guide](docs/DEVELOPMENT.md) includes reproducible CLI builds and tests.
-
-## ALLROUNDER 2.2.1 - ORBIT and Turing
-
-**Experimental firmware; hardware validation pending.** ORBIT replaces mode 10
-with a clocked melody generator: CV IN clock, OUT1 pitch, OUT2 accent, I/O note
-gate. It generates CV/gate only, not audio. Mode 12 keeps the register CV on
-OUT1, holds the register bit on OUT2 and mirrors CV IN or MANUAL on I/O.
-Mode 16 has eight CV/gate presets and reads the previous four without
-overwriting their EEPROM records.
-
-**Disconnect any external trigger from I/O before switching to 2.2.1.
-In ORBIT that jack is an output; patch the clock to CV IN.**
-
-[Sketch and manual](firmware/ALTERIA_ALLROUNDER_2_2_1/README.md) ·
-[Quick reference](docs/quick-reference/ALLROUNDER.md) ·
-[Validation status](firmware/ALTERIA_ALLROUNDER_2_2_1/STATUS.md). Versions 2.0.2 and 2.1.0 remain available.
-
-## ALLROUNDER 2.0.2
-
-One mode runs at a time. Short MODE presses advance 1–16. LEDs 1–4 have binary weights 1, 2, 4, 8; mode 16 uses preset indicators instead.
-
-| # | Mode | In a patch |
+| Firmware | Versione | Funzione |
 | --- | --- | --- |
-| 1 | AD Shaper | Attack/decay envelope and event markers |
-| 2 | AR Gate | Gate-held envelope with release |
-| 3 | Dual Decay | Two independently triggered vactrol-style decays |
-| 4 | Ducking | Smoothed response to control voltage |
-| 5 | Burst | Trigger clusters with complementary ramps |
-| 6 | Acid Generator | Clocked 16-step Phrygian pitch pattern, accents and slides |
-| 7 | Tremolo / AutoPan | Complementary positive modulation CVs |
-| 8 | Grids XY | Pattern-based kick/snare/hat triggers |
-| 9 | Triple Clock | Three independent ratios from /8 to ×8, tap or external clock |
-| 10 | Mutant Drums | Internal kick/snare audio synthesis |
-| 11 | Logic XOR | Two clocks and XOR result |
-| 12 | Turing Machine | Mutating register, CV and bit output |
-| 13 | Humanizer | Event delays, swing and gate variation |
-| 14 | Bernoulli 3 | Probabilistic event routing |
-| 15 | Trance Gate | Twenty-four rhythmic patterns |
-| 16 | Preset Manager | Four stored CV pairs and gates |
+| [ALLROUNDER](ALLROUNDER/) | 2.3.0 | 16 modalità CV e ritmo, con Euclidean Trigs e S&H Glide |
+| [DRUM LAB](DRUM-LAB/) | 1.0.0 | Due voci percussive, otto motori e pagine SOUND/FX |
+| [FULL VOICE](FULL-VOICE/) | 1.0.0 | Sintesi monofonica con oscillatore, filtro, VCA e inviluppo |
+| [MACRO VOICE](MACRO-VOICE/) | 1.0.0 | Cinque modelli di oscillatore, dal wavefold al Karplus |
+| [ACPM](ACPM/) | 1.0.0 | Preset CV e gate, fino a 16 step via clock o indirizzo CV |
 
-[The full control table](firmware/ALTERIA_ALLROUNDER/README.md) covers P1/P2/P3, CV IN, MANUAL, OUT1, OUT2 and I/O for every mode. Acid pitch needs an external oscillator/audio path; Tremolo/AutoPan supplies CV to external VCAs. Mutant Drums creates audio inside ALTERIA. Triple Clock needs **at least three taps** to set tempo and continues at its last tempo when an external clock stops.
+Vuoi un solo modo? La [libreria Additional Modes](Additional-Modes/) offre **47 sketch standalone** e i relativi snippet. Vuoi creare la tua combinazione? Nel [Firmware Builder](Firmware-Builder/) puoi scegliere e ordinare fino a 16 modalità, consultare il codice ed esportare sketch, guida e HEX dopo una compilazione valida.
 
-### Know the outputs
+## Compila e carica
 
-| Mode | OUT1 / OUT2 target | I/O jack |
-| --- | --- | --- |
-| 1–9 and 11–15 | 0…+5 V CV/gate | Digital output, except mode 3: trigger input B |
-| 10 | Approximately ±2.5 V audio | Snare trigger input |
-| 16 | −5…+5 V CV | Stored digital gate output |
+Scarica il repository e apri lo sketch dalla sua cartella `Firmware/` o `Standalone/`. In Arduino IDE installa **Arduino AVR Boards 1.8.6** e seleziona **Arduino Nano / ATmega328P, 16 MHz**; usa **Old Bootloader** solo se richiesto dalla scheda. SPI ed EEPROM sono già nel core. Il target di questi cinque firmware è **REV5-2**; le revisioni storiche e ATmega168P hanno mapping o limiti diversi.
 
-**Disconnect external drivers from I/O before leaving mode 3 or 10 or restarting:** other modes drive that jack as an output. These are firmware targets, not a certified electrical input range. Connect audio to an attenuated mixer/VCA input, not directly to headphones or speakers.
+Scollega i segnali in ingresso dal jack **I/O** prima di cambiare firmware: la direzione dipende dal modo. Su REV5-2, I/O digitale usa D2; OUT1 e OUT2 sono i canali A/B del DAC e D12 pilota LDAC. Le tensioni descritte nei manuali sono nominali. La [taratura](docs/CALIBRATION.md) regola separatamente i due DAC.
 
-### Calibration
-
-Calibration is manual, with a multimeter at the output jacks. Hold **MODE + MANUAL at power-on/reset**, release at LED1, then adjust both outputs at **0 V, +5 V and −5 V** using P1/P2. Center both knobs before each MANUAL confirmation. At blinking LED4, hold MANUAL **1 second** to save. MODE held **1.2 seconds** cancels. Read the [complete calibration guide](docs/CALIBRATION.md) before starting.
-
-The six points are stored per board in two CRC-protected EEPROM records. This adjusts output offset and positive/negative scale; it does not calibrate inputs or guarantee perfect 1 V/oct tracking.
-
-## ALLROUNDER 2.1.0 - Acid Voice
-
-**Experimental firmware; hardware validation pending.** Published alongside 2.0.2,
-not over it. Only mode 10 changes to **Acid Voice**: P1 decay, P2 resonance,
-P3 Env Mod; CV IN pitch, I/O note trigger, MANUAL saw/square. **OUT1 audio;
-OUT2 positive envelope, not snare audio.** The other 15 modes, calibration and
-preset layouts are unchanged. Mode 6 remains an independent CV sequencer,
-not an internal sequencer for the new voice.
-
-[Sketch and manual](firmware/ALTERIA_ALLROUNDER_2_1_0) ·
-[Version comparison / quick reference](docs/quick-reference/ALLROUNDER.md) ·
-[Validation status](firmware/ALTERIA_ALLROUNDER_2_1_0/STATUS.md).
-Software-tested, not physically validated. Recorded build: **30012 bytes flash,
-1081 bytes static SRAM**. I/O still changes direction outside modes 3/10:
-disconnect external drivers before exiting or restarting.
-
-## DRUM LAB 1.0.0
-
-Two independent audio outputs. Assign **Kick, Tom, Synth Perc, Snare, Clap, FM Metal, Closed Hat or Open Hat** to either voice. SOUND controls pitch/duration/character; FX adds tone, drive and crush. Hat pairs support choke. This is original AVR synthesis inspired by broad percussion families, not an LXR firmware port or an official Erica Synths product.
-
-- **CV IN → voice A → OUT1; I/O → voice B → OUT2.** I/O stays an input throughout DRUM LAB.
-- MODE short: next engine on the selected voice. MODE held about 650 ms: select A/B.
-- Hold MODE, add MANUAL within half a second, release both: switch SOUND/FX.
-- MANUAL short: trigger the selected voice. MANUAL held 2 seconds: save the kit after the initial hit.
-- Knobs use pickup after recall. Eight engines are available to each voice, with **two voices sounding simultaneously**, not eight.
-
-Audio runs at **6.4 kHz** with deliberate lo-fi character. There is no internal sequencer: use external triggers or MANUAL. [Read the complete DRUM LAB manual](firmware/ALTERIA_DRUM_LAB/README.md), including EEPROM, LED meanings, calibration and [attribution](firmware/ALTERIA_DRUM_LAB/ATTRIBUTION.md).
-
-## FULL VOICE 1.0.0 - experimental synthesizer
-
-**Experimental firmware; hardware validation pending.** This experimental sketch
-has passed compilation, host tests and AVR binary simulation, but has not been
-validated on a physical module. It is not a stable/hardware-approved release.
-
-CV IN is nominal 1 V/oct pitch; I/O stays an input for gate/trigger; OUT1 is
-filtered/VCA audio, OUT2 is a positive AD envelope. Four pages: OSC (waveform,
-PWM, fine tune), FILTER (cutoff, resonance, AD amount), VCA (level, AD amount,
-drive), ENV (**Attack, Decay, curve; no sustain/release**). MODE short goes
-forward, MANUAL short back; MANUAL held 500 ms auditions a note, MODE held
-1.2 seconds saves the patch. Knobs use pickup.
-
-[Quick reference](docs/quick-reference/FULLVOICE.md) ·
-[Complete manual and sketch](firmware/ALTERIA_FULL_VOICE) ·
-[Validation status](firmware/ALTERIA_FULL_VOICE/STATUS.md).
-Lo-fi 6.4 kHz, approximately +/-2.5 V audio and 0..+5 V envelope targets.
-Physical levels, sound and V/oct tracking still require bench tests; output
-ACAL does not calibrate the pitch ADC. Recorded build: **14536 bytes flash,
-513 bytes static SRAM**. Allrounder and DRUM LAB sources remain unchanged.
-
-## MACRO VOICE 1.0.0 - experimental oscillator
-
-Five original oscillator models: **Fold, FM, Chord, Wavetable and Karplus**.
-OUT1 and OUT2 are both audio. CV IN is nominal 1 V/oct; I/O always remains an
-input for phase sync or a Karplus pluck. The first four models run continuously.
-No LPG, VCA, envelope or output filter. The existing output calibration is read
-without writing to EEPROM.
-
-[Sketch and manual](firmware/ALTERIA_MACRO_VOICE/README.md) ·
-[Quick reference](docs/quick-reference/MACRO_VOICE.md) ·
-[Stereo WAV demo (20 seconds)](firmware/ALTERIA_MACRO_VOICE/ALTERIA_MACRO_VOICE_1_0_0.wav) ·
-[Test report](firmware/ALTERIA_MACRO_VOICE/TEST_REPORT.md).
-The demo is rendered from the firmware DSP, not recorded from hardware.
-
-## Open source and development
-
-Arduino sources, build instructions, regression suites and circuit schematics are included. [Development guide](docs/DEVELOPMENT.md) · [Validation results](docs/PUBLICATION_CHECKS.md) · [Schematics](hardware/schematics/README.md).
-
-ALLROUNDER 2.1.0/2.2.1, FULL VOICE 1.0.0 and MACRO VOICE 1.0.0 are experimental, with hardware qualification pending. Version-specific test reports document compilation, simulation and resource use. Native CAD and a matching manufacturing package are not yet included.
-
-Original materials: **GNU GPL-3.0**. [License](LICENSE) · [Notice](NOTICE.md) · [Contribute](CONTRIBUTING.md).
-
-Other E103 projects: [faun](https://github.com/E103-designs/faun) · [SINCRIA](https://github.com/E103-designs/SINCRIA) · [euroTrack](https://github.com/E103-designs/euroTrack).
+[Schema](hardware/schematics/) · [Sviluppo e test](docs/DEVELOPMENT.md) · [Changelog](CHANGELOG.md) · [Licenza GPL-3.0](LICENSE) · [Attribuzioni](NOTICE.md)
